@@ -18,7 +18,9 @@ def register_routes(app: Flask):
 
     @app.route("/api/findings/<int:finding_id>", methods=["GET"])
     def get_finding(finding_id):
-        finding = Finding.query.get_or_404(finding_id)
+        finding = db.session.get(Finding, finding_id)
+        if finding is None:
+            return jsonify({"error": "not found"}), 404
         return jsonify(finding.to_dict())
 
     @app.route("/api/findings", methods=["POST"])

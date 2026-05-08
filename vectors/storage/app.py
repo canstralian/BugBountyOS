@@ -6,12 +6,14 @@ logging.basicConfig(level=logging.INFO)
 db = SQLAlchemy()
 
 
-def create_app():
+def create_app(config: dict | None = None):
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
         "DATABASE_URL", "sqlite:///storage.db"
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    if config:
+        app.config.update(config)
     db.init_app(app)
 
     with app.app_context():
