@@ -15,3 +15,7 @@ build/
 .DS_Store
 .vscode/
 .idea/
+vectors/pipeline/tests/__pycache__/
+vectors/storage/tests/__pycache__/
+
+# Python cache/build artifacts
