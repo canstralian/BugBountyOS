@@ -1,5 +1,6 @@
 # CLAUDE.md
 
+<<<<<<< HEAD
 Guidance for Claude (and other AI assistants) working in this repository.
 
 ## What this repo is
@@ -165,3 +166,118 @@ the distro tree to "fix" it; reference the README roadmap if asked.
 | How is scope authorization enforced?    | `adapters/airtable/scope_mapper.py`               |
 | How do AI agents talk to the kernel?    | `adapters/mcp/server.py`                          |
 | What runs in CI?                        | `.github/workflows/{ci,tests,lint,build-iso}.yml` |
+=======
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Overview
+
+BugBountyOS is a Debian-based OS environment for authorized bug bounty and security research. It is **not** a generic pentesting distro — it enforces a structured research lifecycle: `Scope → Asset Graph → Input Map → Hypotheses → Validated Findings → Report Artifacts`.
+
+The operator CLI is `bbos`. It is currently in early build phase (v0.1 milestone).
+
+## Commands
+
+### Vector Import
+
+```sh
+# Dry-run (default): preview git subtree adds
+./import_vectors.sh
+
+# Execute: pull vector repos as git subtrees
+EXECUTE=1 ./import_vectors.sh
+```
+
+### Dashboard Vector (vectors/dashboard — TypeScript/Vite/Drizzle)
+
+```sh
+cd vectors/dashboard
+npm install
+npm run dev        # start dev server
+npm run build      # production build
+npx drizzle-kit generate  # generate DB migrations
+npx drizzle-kit migrate   # apply migrations
+```
+
+### Pipeline Vector (vectors/pipeline — Python/Flask)
+
+```sh
+cd vectors/pipeline
+pip install -r requirements.txt   # if present
+python app.py                      # start Flask server
+```
+
+### Storage Vector (vectors/storage — Python/Flask/SQLAlchemy)
+
+```sh
+cd vectors/storage
+pip install -r requirements.txt   # if present
+python app.py                      # start Flask server
+```
+
+### Adapters
+
+```sh
+# MCP server
+python adapters/mcp/server.py
+
+# Airtable scope mapper
+python adapters/airtable/scope_mapper.py
+```
+
+## Architecture
+
+### Layer Model
+
+```
+kernel/constitution/    Constitutional layer — policy decision API, audit, routing authority
+control-plane/registry/ Vector registry (vectors.yaml) — tracks state, trust level, source repos
+vectors/                Specialized capabilities imported as git subtrees
+adapters/               External integrations (Airtable, MCP)
+contracts/              Per-vector YAML gate definitions
+.github/workflows/      CI (ci.yml, build-iso.yml, lint.yml, tests.yml)
+```
+
+### Vectors
+
+Vectors are the core modularity unit. Each is a git subtree from a standalone repo, governing a named capability:
+
+| Vector | Role | Source | State | Stack |
+|---|---|---|---|---|
+| `dashboard` | visual-cortex | canstralian/BugBountyBot | importing | TypeScript, Vite, Next.js 15+, Drizzle |
+| `pipeline` | metabolism | canstralian/BugBountyPipeline | importing | Python, Flask, Mistral/Claude NLP |
+| `storage` | memory | canstralian/BugBountyManager | importing | Python, Flask, SQLAlchemy, Snowflake |
+| `red-sage` | reflex | canstralian/RedSageBot | pending | TBD |
+
+Vector lifecycle: `Importing → Active → Canonical` (or `Quarantined` on gate failure).
+
+### Vector Promotion Gates
+
+A vector must clear all five gates to move from `importing` → `canonical`:
+1. **Contract Signed** — typed input/output interfaces defined in `contracts/<vector>.yaml`
+2. **Tests Pass** — vector-level unit tests pass (pipeline: ≥90% fidelity)
+3. **Spec Kit Score** — ≥27.5/35 on the Compliance Audit
+4. **Integration Pass** — end-to-end flow verified in BugBountyOS CI
+5. **Owner Approval** — final sign-off by `canstralian`
+
+Gate status is tracked in `contracts/<vector>.yaml` and the registry in `control-plane/registry/vectors.yaml`.
+
+### Kernel APIs (Constitutional Layer)
+
+```
+POST /v1/decision/{vector}/{action}  → allow | deny | quarantine
+GET  /v1/status
+GET  /v1/health
+POST /v1/events                      → append-only telemetry/audit log
+```
+
+### Adapters vs Vectors
+
+Adapters (`adapters/`) are stateless integration bridges to external systems (Airtable, MCP). Vectors are stateful capabilities with lifecycle governance. Don't conflate them.
+
+## Key Constraints
+
+- Vectors are imported via `git subtree` — edits to `vectors/` are local and must be pushed back upstream to the source repo separately if intended to persist.
+- `contracts/redsage.yaml` is the authoritative format for gate tracking. Replicate it when adding new vector contracts.
+- The `control-plane/registry/vectors.yaml` is the single source of truth for vector state. All state changes flow through it.
+- `trust_level: tainted` vectors (e.g. `red-sage`) must not be routed by default — manual invocation only.
+>>>>>>> 185d04f (feat: implement pipeline/storage vector stubs, contracts, and dev agent team)
