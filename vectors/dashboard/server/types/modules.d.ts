@@ -1,3 +1,1 @@
-declare module 'node-nmap';
-declare module 'whois-json';
-declare module 'dns-sync';
+// No third-party tool declarations needed — recon delegates to the pipeline vector.
