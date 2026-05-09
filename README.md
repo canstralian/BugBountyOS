@@ -1,6 +1,7 @@
 # BugBountyOS
 [![CI](https://github.com/canstralian/BugBountyOS/actions/workflows/ci.yml/badge.svg)](https://github.com/canstralian/BugBountyOS/actions/workflows/ci.yml)
 [![ISO Build](https://github.com/canstralian/BugBountyOS/actions/workflows/build-iso.yml/badge.svg)](https://github.com/canstralian/BugBountyOS/actions/workflows/build-iso.yml)
+
 A Debian-based operating environment for authorized bug bounty and security research.
 > Bug bounty work should be **scoped, auditable, evidence-first, and report-ready by default.**
 BugBountyOS treats the operating system as a workflow plane for the full research lifecycle:
