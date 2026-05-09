@@ -1,5 +1,3 @@
----
-
 [![CI](https://github.com/canstralian/BugBountyOS/actions/workflows/ci.yml/badge.svg)](https://github.com/canstralian/BugBountyOS/actions/workflows/ci.yml)
 
 [![ISO Build](https://github.com/canstralian/BugBountyOS/actions/workflows/build-iso.yml/badge.svg)](https://github.com/canstralian/BugBountyOS/actions/workflows/build-iso.yml)
