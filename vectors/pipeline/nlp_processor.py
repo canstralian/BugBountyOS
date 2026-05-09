@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import os
 import uuid
 import logging
@@ -61,7 +59,6 @@ def _call_mistral(findings_text: str, api_key: str) -> dict:
     return json.loads(resp.json()["choices"][0]["message"]["content"])
 
 
->>>>>>> 185d04f (feat: implement pipeline/storage vector stubs, contracts, and dev agent team)
 class NLPProcessor:
     def __init__(self, provider: Optional[str] = None):
         self.provider = provider or os.environ.get("NLP_PROVIDER", "claude")

@@ -1,8 +1,5 @@
 # CLAUDE.md
 
-<<<<<<< HEAD
-Guidance for Claude (and other AI assistants) working in this repository.
-
 ## What this repo is
 
 **BugBountyOS** is a Debian-based "security operating system" for authorized
@@ -166,7 +163,7 @@ the distro tree to "fix" it; reference the README roadmap if asked.
 | How is scope authorization enforced?    | `adapters/airtable/scope_mapper.py`               |
 | How do AI agents talk to the kernel?    | `adapters/mcp/server.py`                          |
 | What runs in CI?                        | `.github/workflows/{ci,tests,lint,build-iso}.yml` |
-=======
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
@@ -280,4 +277,3 @@ Adapters (`adapters/`) are stateless integration bridges to external systems (Ai
 - `contracts/redsage.yaml` is the authoritative format for gate tracking. Replicate it when adding new vector contracts.
 - The `control-plane/registry/vectors.yaml` is the single source of truth for vector state. All state changes flow through it.
 - `trust_level: tainted` vectors (e.g. `red-sage`) must not be routed by default — manual invocation only.
->>>>>>> 185d04f (feat: implement pipeline/storage vector stubs, contracts, and dev agent team)

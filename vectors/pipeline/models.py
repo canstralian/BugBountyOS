@@ -1,9 +1,7 @@
-<<<<<<< HEAD
 from app import db
 class BugReport(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     report_text = db.Column(db.Text, nullable=False)
-=======
 from datetime import datetime, timezone
 
 
@@ -22,4 +20,4 @@ class ReconEvent:
         if not isinstance(self.findings, list):
             errors.append("findings must be an array")
         return errors
->>>>>>> 185d04f (feat: implement pipeline/storage vector stubs, contracts, and dev agent team)
+
