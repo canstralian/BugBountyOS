@@ -17,7 +17,6 @@ Scope → Asset Graph → Input Map → Hypotheses → Validated Findings → Re
 
 This is not a generic pentesting distro. It is a structured operator environment designed to enforce research discipline at the OS level.
 
----
 
 ## Overview
 
