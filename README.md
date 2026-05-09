@@ -1,535 +1,248 @@
-# BugBountyOS
+---
+
 [![CI](https://github.com/canstralian/BugBountyOS/actions/workflows/ci.yml/badge.svg)](https://github.com/canstralian/BugBountyOS/actions/workflows/ci.yml)
+
 [![ISO Build](https://github.com/canstralian/BugBountyOS/actions/workflows/build-iso.yml/badge.svg)](https://github.com/canstralian/BugBountyOS/actions/workflows/build-iso.yml)
 
 A Debian-based operating environment for authorized bug bounty and security research.
+
 > Bug bounty work should be **scoped, auditable, evidence-first, and report-ready by default.**
+> 
+
 BugBountyOS treats the operating system as a workflow plane for the full research lifecycle:
-```text
+
+```
 Scope → Asset Graph → Input Map → Hypotheses → Validated Findings → Report Artifacts
+```
 
 This is not a generic pentesting distro. It is a structured operator environment designed to enforce research discipline at the OS level.
 
-⸻
+---
 
 ## Overview
 
-Most security distros optimize for tool availability.
+BugBountyOS is designed around a simple idea: *tools don’t create outcomes — workflows do.*  
 
-BugBountyOS optimizes for:
+The OS should help you:
 
-* Scope-aware execution
-* Evidence capture
-* Reproducible workflows
-* Safer defaults
-* Report-ready state
+- prove authorization and scope at every step
+- generate evidence as you work (not later)
+- keep findings traceable and reproducible
+- ship report-ready artifacts with minimal friction
 
-The goal is not to out-Kali Kali or ship every offensive tool with a pulse.
+---
 
-The goal is to create a controlled research environment where operators can move from scoped recon to validated findings with less drift, less chaos, and less evidence archaeology later.
+## Core Principles
 
-⸻
+### Scope First
 
-## Why It Exists
+# BugBountyOS
 
-Bug bounty workflows tend to fail in predictable places:
+Scope is not a note you remember — it’s an enforced constraint.
 
-* scope gets ignored or lost mid-stream
-* outputs scatter across terminals, screenshots, notebooks, and browser tabs
-* evidence is collected inconsistently
-* risky actions are launched without enough structure or review
-* findings are drafted later from memory instead of from preserved state
+- Make scope explicit before recon begins
+- Treat “out of scope” as a hard failure mode
+- Record the scope source (program page, contract, email, ticket, etc.)
 
-BugBountyOS is designed to reduce that entropy.
+### Evidence by Default
 
-Instead of treating the OS as a neutral shell full of tools, it treats the OS as a workflow enforcement layer. The operating system, project model, tool wrappers, evidence handling, and report generation all reinforce the same operating discipline.
+If it’s not captured, it didn’t happen.
 
-⸻
+- Prefer tooling and defaults that write to an evidence store automatically
+- Preserve raw outputs (plus normalized summaries)
+- Keep timestamps and provenance
 
-## Design Goals
+### Workflow Over Tool Sprawl
 
-BugBountyOS is built to:
+More tools rarely means better results.
 
-* enforce scope before execution
-* preserve evidence as first-class state
-* make findings traceable to collected artifacts
-* keep operator workflows reproducible
-* prefer safe defaults over tool sprawl
-* support authorized research, not indiscriminate activity
-* turn project state into report-ready outputs
+- Standardize the lifecycle and plug tools into it
+- Keep a minimal set of opinionated defaults
+- Prefer composable primitives over one-off “magic” wrappers
 
-⸻
+### Safer Execution
 
-## What Makes BugBountyOS Different
+Operators make mistakes. Systems should reduce blast radius.
 
-BugBountyOS is not:
+- Containment (namespaces, sandboxing, least privilege)
+- Defaults that discourage risky actions
+- Clear separation of “recon” vs “exploit-like” tooling
 
-* a wallpapered Debian remaster
-* a generic “ethical hacking” live ISO
-* a random bundle of recon tools
-* a thin Kali clone
+### Report-Ready State
 
-BugBountyOS is a structured operator environment for authorized bug bounty work.
+The goal is not “found something interesting.” The goal is “shipped a defensible report.”
 
-It is intended to provide:
+- Findings map to evidence bundles
+- Reproduction steps are standardized
+- Outputs are exportable into common report formats
 
-* a defined workspace model
-* typed scope manifests
-* policy-aware tool wrappers
-* evidence indexing and hashing
-* notes and hypotheses tied to project state
-* finding drafts linked to artifacts
-* report generation from structured data
+---
 
-In short:
+## Workflow Model
 
-Kali-style distributions optimize for tool access.
-BugBountyOS optimizes for controlled research flow.
+The canonical workflow is:
 
-⸻
+1. **Scope**
+2. **Asset Graph**
+3. **Input Map**
+4. **Hypotheses**
+5. **Validated Findings**
+6. **Report Artifacts**
 
-## How It Differs from Kali
+### Example (operator view)
 
-	Kali	BugBountyOS
-Optimized for	Tool breadth	Controlled research flow
-Scope enforcement	Manual	Machine-readable manifest
-Evidence handling	Ad hoc	Automatic indexing and hashing
-Workflow model	General-purpose toolkit	Structured project lifecycle
-Primary user model	Broad security work	Authorized bug bounty operators
+```
+Scope
+  → verify authorization + define targets
+Asset Graph
+  → enumerate hosts, apps, identities, dependencies
+Input Map
+  → endpoints, parameters, auth flows, attack surface
+Hypotheses
+  → “what could be true here?”
+Validated Findings
+  → reproduce + confirm impact + capture evidence
+Report Artifacts
+  → write-up + severity + remediation + attachments
+```
 
-BugBountyOS does not try to replace Kali’s coverage. It provides structure around a curated, workflow-oriented toolset.
+---
 
-⸻
+## Architecture (High-Level)
 
-Core Principles
+1. **Scope Manifest**: a machine-readable scope definition that travels with a workspace
+2. **Workspace Layout**: predictable folders for targets, logs, evidence, and reports
+3. **Execution Model**: commands run through wrappers that preserve outputs and metadata
+4. **Evidence Store**: raw + normalized artifacts with consistent naming
+5. **Report Pipeline**: convert evidence + findings into report-ready deliverables
 
-Scope First
+---
 
-Every project begins with an explicit scope manifest.
+## Workspace Layout
 
-Targets, exclusions, allowed actions, and constraints are defined before execution. Wrapped tools can inspect that manifest and refuse, warn, or constrain execution based on policy.
-
-Evidence by Default
-
-Artifacts should not disappear into terminal history.
-
-BugBountyOS is designed to capture logs, screenshots, responses, hashes, and tool metadata in a consistent project structure so findings can be traced back to their source.
-
-Workflow Over Tool Sprawl
-
-The project is not trying to ship every possible offensive utility.
-
-It focuses on the minimum useful set of curated tools needed to support a disciplined bug bounty workflow.
-
-Safer Execution
-
-Potentially noisy or risky actions should be explicit, gated, and reviewable.
-
-BugBountyOS is designed to encourage bounded, authorized testing rather than loose, unstructured execution.
-
-Report-Ready State
-
-Notes, evidence, observations, and findings should accumulate into usable report artifacts instead of becoming a forensic excavation six hours later.
-
-⸻
-
-## Architecture
-
-BugBountyOS is built as a Debian derivative with five major layers.
-
-1. Distro Layer
-
-Provides the Debian base, ISO build profile, package sources, branding, and release mechanics.
-
-2. Platform Layer
-
-Provides shared defaults, workspace conventions, CLI entry points, state paths, and package structure.
-
-3. Workflow Layer
-
-Implements the bug bounty lifecycle through project initialization, scope handling, assets, notes, evidence capture, findings, and reports.
-
-4. Execution Layer
-
-Exposes selected security tools through wrapped execution paths and curated profiles rather than relying on raw, unstructured invocation.
-
-5. Policy Layer
-
-Enforces scope checks, action-class restrictions, and trust boundaries between trusted configuration and untrusted target-derived data.
-
-⸻
-
-## Project Status
-
-Early build phase. v0.1 is the first milestone.
-
-The v0.1 target is to provide a Debian-based bootable image that can:
-
-* initialize a structured project workspace
-* validate a scope manifest
-* run a small set of wrapped recon actions against authorized targets
-* capture and hash evidence automatically
-* create finding drafts linked to evidence
-* generate a report skeleton from project state
-
-⸻
-
-## Planned Workflow
-
-Full ISO, APT repository, and install instructions land with v0.1.
-
-# Initialize a project
-bbos init example-program
-# Validate your scope manifest
-bbos scope validate scope/scope.yml
-# Import targets
-bbos asset import domains domains.txt
-# Run a wrapped recon action
-bbos run recon httpx --targets assets/domains.txt
-# Capture evidence
-bbos evidence add screenshots/homepage.png --kind screenshot --target app.example.com
-# Create a finding draft
-bbos finding create open-redirect
-# Build a report
-bbos report build
-
-The point is not command novelty. The point is that execution, evidence, and reporting all live inside the same structured project model.
-
-⸻
-
-## Workspace Model
-
-Every project follows a defined layout:
-
-/workspaces/<project_slug>/
-  project.yml
-  scope/
-    scope.yml
-    exclusions.yml
-  assets/
-    domains.txt
-    subdomains.txt
-    urls.txt
-    hosts.txt
-    services.json
-  notes/
-    hypotheses.md
-    observations.md
-    timeline.md
-  evidence/
-    screenshots/
-    responses/
+```
+workspaces/
+  <program-or-client>/
+    scope/
+      scope.yaml
+      notes.md
+    assets/
+      asset-graph.json
+      inventory.csv
+    inputs/
+      urls.txt
+      params.txt
+      auth.md
+    hypotheses/
+      backlog.md
+    findings/
+      <finding-id>-<short-name>/
+        evidence/
+        reproduction.md
+        impact.md
+        remediation.md
+    reports/
+      report.md
+      attachments/
     logs/
-    attachments/
-    hashes/
-    index.json
-  findings/
-    drafts/
-    submitted/
-  reports/
-    technical/
-    executive/
-  state/
-    assets.json
-    tool_runs.jsonl
-    decisions.jsonl
-    evidence.jsonl
-    findings.json
+      commands.log
+      tool-output/
+```
 
-This structure is intentional. Bug bounty workflows generate fragmented state. BugBountyOS is designed to make that state legible, portable, and reviewable.
+---
 
-⸻
+## Scope Manifest (Example)
 
-## Scope Manifest
-
-Every project starts with a typed scope manifest:
-
-version: 1
+```yaml
 program:
-  name: "Example Program"
-  platform: "HackerOne"
-  handle: "example"
-targets:
-  include:
-    - "*.example.com"
-    - "api.example.com"
-  exclude:
-    - "admin.example.com"
-    - "*.internal.example.com"
-actions:
-  allowed:
-    - passive_recon
-    - web_enum
-    - screenshot_capture
-    - safe_http_probe
-  restricted:
-    - aggressive_fuzzing
-    - auth_bruteforce
-constraints:
-  rate_limit: "low"
+  name: Example Bug Bounty Program
+  source: https://example.com/program-scope
+
+authorization:
+  type: bug_bounty
+  reference: "Program scope page URL or ticket ID"
+
+in_scope:
+  domains:
+    - example.com
+    - api.example.com
+  ip_ranges:
+    - 203.0.113.0/24
+
+out_of_scope:
+  domains:
+    - admin.example.com
   notes:
-    - "No testing against payment flows"
-    - "No authenticated testing without explicit approval"
-timebox:
-  start: "2026-05-08T00:00:00Z"
-  end: "2026-05-30T23:59:59Z"
+    - "No testing against production employee systems"
+    - "No social engineering"
 
-Wrapped tools read this manifest before executing. Out-of-scope targets are blocked. Restricted actions require an explicit override path.
+rules:
+  rate_limit:
+    requests_per_second: 5
+  prohibited_actions:
+    - "Denial of service"
+    - "Physical attacks"
+```
 
-⸻
+---
 
-## Command Reference
+## Command Execution (Examples)
 
-bbos init             Initialize a project workspace
-bbos scope validate   Validate a scope manifest
-bbos scope show       Display active scope
-bbos asset import     Import targets into structured state
-bbos asset list       List known assets
-bbos note add         Append to notes
-bbos hypothesis add   Record a testable hypothesis
-bbos run              Execute a wrapped tool
-bbos evidence add     Manually add an artifact
-bbos evidence hash    Hash and index a file
-bbos finding create   Create a finding draft
-bbos report build     Compile a report from project state
-bbos status           Project summary
-bbos doctor           Environment health check
+### Running a command (capturing output)
 
-The CLI is the primary control surface for the MVP. A richer TUI or desktop console can come later, once the foundations stop moving underfoot.
+```bash
+bbos run -- workspace=acme -- command "nuclei -l inputs/urls.txt -o logs/tool-output/nuclei.txt"
+```
 
-⸻
+### Capturing a workspace tree snapshot
 
-## Package Layout
+```bash
+bbos tree -- workspace=acme > logs/workspace-tree.txt
+```
 
-The planned package model is:
+### Validating scope before running recon
 
-bugbountyos-base            System defaults, shared paths, shell profile
-bugbountyos-branding        Identity, motd, release metadata
-bugbountyos-cli             Main bbos entry point and subcommands
-bugbountyos-scope           Manifest parser, schema validation, policy engine
-bugbountyos-workspace       Project init, template generation, state management
-bugbountyos-evidence        Artifact storage, hashing, indexing
-bugbountyos-reporting       Finding templates, report generation
-bugbountyos-guardrails      Risky-command wrappers, action-class enforcement
-bugbountyos-recon           Curated recon tools and wrappers
-bugbountyos-web             Browser stack, proxy tooling, API helpers
-bugbountyos-control-center  CLI/TUI operator console
+```bash
+bbos scope validate -- workspace=acme
+```
 
-Each package is meant to own a distinct part of the system so the project does not collapse into one giant maintenance swamp.
+---
 
-⸻
+## Kali Comparison
 
-## Execution Model
+| Category | Kali Linux | BugBountyOS |
+| --- | --- | --- |
+| Primary goal | Broad pentesting / training distro | Bug bounty / security research workflow plane |
+| Defaults | Tool availability | Evidence + auditability + report readiness |
+| Structure | User-defined | Opinionated workspace + lifecycle |
+| Scope enforcement | Manual / process | Manifest-driven + workflow gates (planned) |
+| Output handling | Depends on operator | Capture-first wrappers + standardized artifacts |
+| Reporting | External / manual | Built-in artifact pipeline (planned) |
 
-Wrapped execution is the core enforcement path.
+---
 
-A typical bbos run flow is expected to look like this:
+## Roadmap (High-Level)
 
-user request
-  → tool alias lookup
-  → action class resolution
-  → target normalization
-  → scope check
-  → policy check
-  → command render
-  → execution
-  → output capture
-  → metadata logging
-  → artifact indexing
+### Phase 1 — Foundations
 
-This is how the project encodes governance into execution rather than burying it in documentation nobody reads once packets start moving.
+- ISO build pipeline
+- Base packages + operator ergonomics
+- Standard workspace structure
 
-⸻
+### Phase 2 — Workflow Enforcement
 
-## Evidence Model
+- Scope manifest validation and gating
+- Command wrapper that captures output, timestamp, and metadata
+- Evidence bundle generation per finding
 
-Artifacts are treated as first-class project objects.
+### Phase 3 — Report Pipeline
 
-Evidence may include:
+- Findings → report template export
+- Attachment packaging and integrity checks
+- Optional integrations (Notion, GitHub Issues, etc.)
 
-* screenshots
-* HTTP responses
-* logs
-* command outputs
-* attachments
-* hashes
-* timestamps
-* target linkage
-* source tool metadata
-
-The purpose is straightforward: findings should be reconstructable from preserved state, not from operator memory.
-
-⸻
-
-## Reporting Model
-
-BugBountyOS is intended to accumulate enough structure during execution that reporting becomes compilation rather than improvisation.
-
-A finding draft should ultimately be able to reference:
-
-* title
-* target
-* hypothesis
-* observed behavior
-* impact notes
-* reproduction steps
-* linked evidence
-* severity estimate
-* current status
-
-The workflow should end in report-ready artifacts, not a pile of disconnected terminal transcripts and a worsening mood.
-
-⸻
-
-## Security Posture
-
-BugBountyOS is designed around explicit trust boundaries:
-
-* signed packages and repository metadata
-* strict manifest parsing
-* scope-aware tool wrappers with hard block on out-of-scope targets
-* hash-based evidence integrity
-* append-only state logs where feasible
-* unprivileged default operator workflows
-* separation of trusted configuration from target-derived data
-* minimal implicit trust in tool output
-
-This is a security environment. Trust should be engineered, not assumed because something printed green text and sounded confident.
-
-⸻
-
-## Threat Model
-
-The initial project threat model includes:
-
-* operator error
-* scope drift
-* dangerous tool execution against unauthorized targets
-* malformed or hostile target-derived data
-* evidence tampering after collection
-* untrusted command output contaminating notes or reports
-* supply-chain risk in package and release infrastructure
-
-BugBountyOS is intended to reduce these risks through policy-aware execution, structured storage, and clearer system boundaries.
-
-⸻
-
-## Build Philosophy
-
-BugBountyOS should be:
-
-* boring at the base
-* strict at the boundaries
-* useful in the workflow
-* explicit about trust
-* disciplined about scope
-
-The distro is not the product by itself.
-
-The workflow is the product.
-The distro is the delivery mechanism.
-
-⸻
-
-## Roadmap
-
-v0.1
-
-* Debian-based bootable image
-* core CLI
-* scope manifest validation
-* structured workspace initialization
-* wrapped recon commands for a small curated toolset
-* automatic evidence hashing and indexing
-* finding draft support
-* report skeleton generation
-
-v0.2
-
-* stronger policy engine
-* richer evidence linking
-* asset graph support
-* safer browser and container isolation
-* better reporting templates
-
-v0.3+
-
-* control center / TUI
-* AI-assisted summarization constrained by local evidence
-* encrypted project export bundles
-* optional team-oriented workflows
-* containerized high-risk execution paths
-
-⸻
-
-## What v0.1 Will Not Do
-
-To keep the project from becoming a cosplay convention for unfinished ambition, v0.1 will not attempt to:
-
-* replace Kali in breadth of tooling
-* ship every offensive utility available
-* build a full custom desktop environment
-* require a complex AI agent stack for core usability
-* solve team collaboration before the single-operator workflow is solid
-
-BugBountyOS starts with operator workflow first.
-
-⸻
-
-## Intended Audience
-
-BugBountyOS is intended for:
-
-* independent bug bounty researchers
-* structured operators who want reproducible project state
-* builders who care about evidence integrity and reporting flow
-* teams evaluating whether the workflow can later be extended into shared infrastructure
-
-It is not intended as a general-purpose “hacker distro” for anyone who wants a themed desktop and 800 tools they do not understand.
-
-⸻
-
-## Contributing
-
-Contributions are welcome, especially in:
-
-* Debian packaging and live-build
-* CLI and scope engine implementation
-* evidence handling and artifact indexing
-* report generation and finding templates
-* reproducible build workflows
-* operator UX for structured security research
-
-Contribution guidelines will be published as the repository structure stabilizes.
-
-⸻
-
-## Documentation
-
-* docs/architecture.md￼ — system design and layer breakdown
-* docs/manifests.md￼ — scope manifest schema and policy engine
-* docs/roadmap.md￼ — versioned milestone plan
-* docs/threat-model.md￼ — trust boundaries and initial threat assumptions
-
-⸻
+---
 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-⸻
-
-## Long-Term Direction
-
-BugBountyOS is intended to become a research environment where:
-
-* authorized scope is machine-readable
-* execution is policy-aware
-* evidence is preserved automatically
-* findings emerge from artifacts, not memory
-* reports are generated from structured state
-* trust boundaries remain explicit throughout the system
-
-Not more tools.
-
-Better structure.
