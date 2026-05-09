@@ -519,7 +519,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ⸻
 
-Long-Term Direction
+## Long-Term Direction
 
 BugBountyOS is intended to become a research environment where:
 
