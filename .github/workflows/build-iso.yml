@@ -1,1 +1,44 @@
-bmFtZTogSVNPIEJ1aWxkCm9uOgogIHdvcmtmbG93X2Rpc3BhdGNoOgpqb2JzOgogIGJ1aWxkOgogICAgcnVucy1vbjogdWJ1bnR1LWxhdGVzdAogICAgc3RlcHM6CiAgICAtIHVzZXM6IGFjdGlvbnMvY2hlY2tvdXRAM3MKICAgIC0gbmFtZTogU2ltdWxhdGUgSVNPIEJ1aWxkCiAgICAgIHJ1bjogZWNobyAiQnVpbGRpbmcgRGViaWFuLWJhc2VkIElTTy4uLiIK
+name: ISO Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "distro/**"
+      - "packages/**"
+      - ".github/workflows/build-iso.yml"
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install live-build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y live-build debootstrap xorriso squashfs-tools
+
+      - name: Prepare build directories
+        run: |
+          mkdir -p dist
+
+      - name: Build ISO
+        run: |
+          cd distro/live-build
+          sudo lb clean || true
+          sudo lb config
+          sudo lb build
+
+      - name: Collect ISO artifact
+        run: |
+          find distro/live-build -maxdepth 2 -type f \( -name "*.iso" -o -name "*.img" \) -exec cp {} dist/ \;
+
+      - name: Upload ISO artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bugbountyos-iso
+          path: dist/*
