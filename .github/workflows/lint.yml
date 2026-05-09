@@ -1,4 +1,35 @@
-bmFtZTogTGludApvbjogW3B1c2hdCmpvYnM6CiAgbGludDoKICAgIHJ1bnMt
-b246IHVidW50dS1sYXRlc3QKICAgIHN0ZXBzOgogICAgLSB1c2VzOiBhY3Rp
-b25zL2NoZWNrb3V0QDNzCiAgICAtIG5hbWU6IFJ1biBMaW50ZXIKICAgICAg
-cnVuOiBlY2hvICJMaW50aW5nIGNvZGUuLi4i
+name: Lint
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install lint dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+
+      - name: Ruff
+        run: |
+          ruff check .
+
+      - name: ShellCheck
+        run: |
+          find . -type f -name "*.sh" -print0 | xargs -0 -r shellcheck
