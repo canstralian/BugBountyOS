@@ -1,4 +1,31 @@
-bmFtZTogVGVzdHMKb246IFtwdXNoXQpqb2JzOgogIHRlc3Q6CiAgICBydW5z
-LW9uOiB1YnVudHUtbGF0ZXN0CiAgICBzdGVwczoKICAgIC0gdXNlczogYWN0
-aW9ucy9jaGVja291dEA0cwogICAgLSBuYW1lOiBSdW4gVGVzdHMKICAgICAg
-cnVuOiBlY2hvICJSdW5uaW5nIHNtbylrZSB0ZXN0cy4uLiI=
+name: Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          pip install pytest
+
+      - name: Run tests
+        run: |
+          pytest -q
