@@ -61,8 +61,6 @@ export function Toaster() {
 
   return (
     <div
-      aria-live="polite"
-      aria-relevant="additions text"
       className={cn(
         "pointer-events-none fixed inset-x-0 bottom-0 z-[100] flex flex-col items-center gap-2 px-3 pb-3 safe-bottom",
         "sm:inset-x-auto sm:right-4 sm:bottom-4 sm:items-end sm:pb-0",

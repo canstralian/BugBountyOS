@@ -26,12 +26,12 @@ export function FormField({
   const describedBy = [hintId, errorId].filter(Boolean).join(" ") || undefined;
 
   const child = React.cloneElement(children, {
+    ...children.props,
     id,
     "aria-invalid": error ? true : undefined,
     "aria-describedby": describedBy,
     "aria-required": required || undefined,
     required,
-    ...children.props,
   });
 
   return (
@@ -40,7 +40,7 @@ export function FormField({
         {label}
       </Label>
       {child}
-      {hint && !error ? (
+      {hint ? (
         <p id={hintId} className="text-xs text-muted-foreground">
           {hint}
         </p>
