@@ -1,4 +1,4 @@
-from scope_mapper import AirtableScopeAdapter
+from adapters.airtable.scope_mapper import AirtableScopeAdapter
 
 
 def test_adapter_initializes_with_expected_base():

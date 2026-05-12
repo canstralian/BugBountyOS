@@ -16,7 +16,9 @@ for entry in "${VECTORS[@]}"; do
   URL="${entry#*:}"
 
   echo "[KERNEL] Loading module: $NAME from $URL"
-  if [ "$EXECUTE" -eq 1 ]; then
+  if [ -d "vectors/$NAME" ]; then
+    echo "[KERNEL] Module $NAME already exists, skipping."
+  elif [ "$EXECUTE" -eq 1 ]; then
     git subtree add --prefix="vectors/$NAME" "$URL" main --squash
   else
     echo "[DRY-RUN] git subtree add --prefix='vectors/$NAME' '$URL' main --squash"
