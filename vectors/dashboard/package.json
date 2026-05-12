@@ -1,1 +1,33 @@
-{"name": "BugBountyOS Dashboard", "version": "1.0.0"}
+{
+  "name": "bugbountyos-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "latest",
+    "@radix-ui/react-avatar": "latest",
+    "@radix-ui/react-dialog": "latest",
+    "@radix-ui/react-dropdown-menu": "latest",
+    "@radix-ui/react-popover": "latest",
+    "@radix-ui/react-progress": "latest",
+    "drizzle-orm": "latest",
+    "express": "latest",
+    "input-otp": "latest",
+    "react": "latest",
+    "vaul": "latest",
+    "ws": "latest",
+    "zod": "latest",
+    "zustand": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/ws": "latest",
+    "drizzle-kit": "latest",
+    "typescript": "latest",
+    "vite": "latest"
+  }
+}
