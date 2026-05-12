@@ -1,7 +1,10 @@
+import os
+
+
 class AirtableScopeAdapter:
     def __init__(self) -> None:
         """Initialize the Airtable adapter with base config."""
-        self.base_id = "appT4zR1ybxgrujBD"
+        self.base_id = os.getenv("AIRTABLE_BASE_ID", "appT4zR1ybxgrujBD")
         self.scope_rules_table = "Scope Rules"
 
     def get_active_scope(self) -> list[dict]:

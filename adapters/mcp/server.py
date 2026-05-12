@@ -1,4 +1,11 @@
+from pathlib import Path
+
+import yaml
 from mcp.server.fastmcp import FastMCP
+
+_REGISTRY_PATH = (
+    Path(__file__).resolve().parent.parent.parent / "control-plane" / "registry" / "vectors.yaml"
+)
 
 mcp = FastMCP("BugBountyOS Kernel")
 
@@ -10,9 +17,10 @@ def check_scope(asset_id: str) -> str:
 
 
 @mcp.tool()
-def list_vectors() -> list:
-    """Return the current state of the Vector Registry."""
-    return ["dashboard", "pipeline", "storage", "red-sage"]
+def list_vectors() -> list[str]:
+    """Return the current state of the Vector Registry, sourced from vectors.yaml."""
+    data = yaml.safe_load(_REGISTRY_PATH.read_text())
+    return [vector["id"] for vector in data.get("vectors", [])]
 
 
 if __name__ == "__main__":

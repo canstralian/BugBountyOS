@@ -43,7 +43,6 @@ select = [
 ]
 ignore = [
     "E501",  # line length handled by formatter
-    "S101",  # assert in tests
     "S603",  # subprocess call: not all are insecure
 ]
 
@@ -64,6 +63,7 @@ no_implicit_optional = true
 check_untyped_defs = true
 disallow_untyped_defs = false
 ignore_missing_imports = true
+disable_error_code = ["import-untyped"]
 exclude = [
     "vectors/dashboard/",
     "build/",
