@@ -1,0 +1,17 @@
+{
+  "threshold": 5,
+  "reporters": ["console"],
+  "ignore": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.venv/**",
+    "**/.git/**",
+    "**/tests/**",
+    "vectors/dashboard/**"
+  ],
+  "absolute": true,
+  "format": ["python", "typescript", "javascript"],
+  "min-lines": 5,
+  "min-tokens": 50
+}
