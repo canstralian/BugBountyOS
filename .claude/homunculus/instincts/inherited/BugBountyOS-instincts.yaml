@@ -1,0 +1,339 @@
+# Instincts generated from https://github.com/canstralian/BugBountyOS
+# Generated: 2026-05-12T21:26:09.923Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: BugBountyOS-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/canstralian/BugBountyOS
+---
+
+# BugBountyOS Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: chore
+
+## Evidence
+
+- 1 commits analyzed
+- Detected conventional commit pattern
+- Examples: chore(quality): decode base64 sources, fix latent bugs, set up CI gates
+
+---
+id: BugBountyOS-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/canstralian/BugBountyOS
+---
+
+# BugBountyOS Commit Length
+
+## Action
+
+Write moderate-length commit messages (~71 characters)
+
+## Evidence
+
+- Average commit message length: 71 chars
+- Based on 1 commits
+
+---
+id: BugBountyOS-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/canstralian/BugBountyOS
+---
+
+# BugBountyOS Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: BugBountyOS-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/canstralian/BugBountyOS
+---
+
+# BugBountyOS Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: BugBountyOS-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/canstralian/BugBountyOS
+---
+
+# BugBountyOS Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: BugBountyOS-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/canstralian/BugBountyOS
+---
+
+# BugBountyOS Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: BugBountyOS-test-naming
+trigger: "when creating a test file"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/canstralian/BugBountyOS
+---
+
+# BugBountyOS Test Naming
+
+## Action
+
+Name test files using the pattern: *.test.ts
+
+## Evidence
+
+- File pattern: *.test.ts
+- Consistent across test files
+
+---
+id: bugbountyos-instinct-file-naming-camelcase
+trigger: "When creating a new file in the repository"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: canstralian/BugBountyOS
+---
+
+# Bugbountyos Instinct File Naming Camelcase
+
+## Action
+
+Name the file using camelCase convention
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.files
+
+---
+id: bugbountyos-instinct-function-naming-camelcase
+trigger: "When defining a new function"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: canstralian/BugBountyOS
+---
+
+# Bugbountyos Instinct Function Naming Camelcase
+
+## Action
+
+Use camelCase for the function name
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.functions
+
+---
+id: bugbountyos-instinct-class-naming-pascalcase
+trigger: "When defining a new class"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: canstralian/BugBountyOS
+---
+
+# Bugbountyos Instinct Class Naming Pascalcase
+
+## Action
+
+Use PascalCase for the class name
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.classes
+
+---
+id: bugbountyos-instinct-constant-naming-screaming-snake-case
+trigger: "When declaring a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: canstralian/BugBountyOS
+---
+
+# Bugbountyos Instinct Constant Naming Screaming Snake Case
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for the constant name
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.constants
+
+---
+id: bugbountyos-instinct-import-style-relative
+trigger: "When importing modules in Python files"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: canstralian/BugBountyOS
+---
+
+# Bugbountyos Instinct Import Style Relative
+
+## Action
+
+Use relative import statements
+
+## Evidence
+
+- Pattern in codeStyle.importStyle
+
+---
+id: bugbountyos-instinct-export-style-named
+trigger: "When exporting functions or classes"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: canstralian/BugBountyOS
+---
+
+# Bugbountyos Instinct Export Style Named
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in codeStyle.exportStyle
+
+---
+id: bugbountyos-instinct-test-file-pattern
+trigger: "When adding a new test file"
+confidence: 0.9
+domain: testing
+source: repo-analysis
+source_repo: canstralian/BugBountyOS
+---
+
+# Bugbountyos Instinct Test File Pattern
+
+## Action
+
+Name the file with the pattern *.test.ts
+
+## Evidence
+
+- Pattern in testing.filePattern
+
+---
+id: bugbountyos-instinct-test-type-unit
+trigger: "When writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: canstralian/BugBountyOS
+---
+
+# Bugbountyos Instinct Test Type Unit
+
+## Action
+
+Write unit tests
+
+## Evidence
+
+- Pattern in testing.testTypes
+
+---
+id: bugbountyos-instinct-commit-prefix-chore
+trigger: "When making a commit related to maintenance, quality, or setup"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: canstralian/BugBountyOS
+---
+
+# Bugbountyos Instinct Commit Prefix Chore
+
+## Action
+
+Prefix the commit message with 'chore'
+
+## Evidence
+
+- Seen in commit 'chore(quality): decode base64 sources, fix latent bugs, set up CI gates'
+- Pattern in commits.prefixes
+
+---
+id: bugbountyos-instinct-commit-format-conventional
+trigger: "When writing a commit message"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: canstralian/BugBountyOS
+---
+
+# Bugbountyos Instinct Commit Format Conventional
+
+## Action
+
+Use the conventional commit format: <type>(<scope>): <description>
+
+## Evidence
+
+- Pattern in commits.type
+- Seen in commit 'chore(quality): decode base64 sources, fix latent bugs, set up CI gates'
+
