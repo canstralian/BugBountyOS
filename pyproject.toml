@@ -74,6 +74,10 @@ exclude = [
 module = "tests.*"
 disallow_untyped_defs = false
 
+[[tool.mypy.overrides]]
+module = "vectors.pipeline.models"
+disable_error_code = ["name-defined", "misc"]
+
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = [

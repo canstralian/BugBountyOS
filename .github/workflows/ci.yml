@@ -113,10 +113,12 @@ jobs:
       - name: pip-audit (dependency vulnerabilities)
         run: pip-audit -r requirements.txt --strict
         continue-on-error: true
+      - name: Install gitleaks
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.18.4/gitleaks_8.18.4_linux_x64.tar.gz \
+            | sudo tar -xz -C /usr/local/bin gitleaks
       - name: Gitleaks (secrets scan)
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gitleaks detect --source . --no-banner --redact --log-opts="--all"
 
   dashboard:
     name: TS dashboard (typecheck)
