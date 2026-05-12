@@ -1,16 +1,26 @@
-IyEvYmluL2Jhc2gKIyBCdWdCb3VudHlPUyBWZWN0b3IgSW1wb3J0IFV0aWxp
-dHkgKHYyLjApCgpFWEVDVVRFPSR7RVhFQ1VURTotMH0KClZFQ1RPUlM9KAog
-ICJkYXNoYm9hcmQ6aHR0cHM6Ly9naXRodWIuY29tL2NhbnN0cmFsaWFuL0J1
-Z0JvdW50eUJvdCIKICAicGlwZWxpbmU6aHR0cHM6Ly9naXRodWIuY29tL2Nh
-bnN0cmFsaWFuL0J1Z0JvdW50eVBpcGVsaW5lIgogICJzdG9yYWdlOmh0dHBz
-Oi8vZ2l0aHViLmNvbS9jYW5zdHJhbGlhbi9CdWdCb3VudHlNYW5hZ2VyIgop
-CgplY2hvICItLS0gQnVnQm91bnR5T1MgS2VybmVsOiBWZWN0b3IgTG9hZGlu
-ZyAtLS0iCgpmb3IgZW50cnkgaW4gIiR7VkVDVE9SU1tAXX0iOyBkbwogIE5B
-TUU9IiR7ZW50cnklJToqfSIKICBVUkw9IiR7ZW50cnkjOip9IgogIAogIGVj
-aG8gIltLRVJORUxdIExvYWRpbmcgbW9kdWxlOiAkTkFNRSBmcm9tICRVUkwi
-CiAgaWYgWyAiRVhFQ1VURSIgLWVxIDEgXTsgdGhlbgogICAgZ2l0IHN1YnRy
-ZWUgYWRkIC0tcHJlZml4PSJ2ZWN0b3JzLyROQU1FIiAiJFVSTCIgbWFpbiAt
-LXNxdWFzaAogIGVsc2UKICAgIGVjaG8gIltEUlktUlVOXSBnaXQgc3VidHJl
-ZSBhZGQgLS1wcmVmaXg9J3ZlY3RvcnMvJE5BTUUnICcnJFVSTCcgbWFpbiAt
-LXNxdWFzaCIKICBmaQpkb25lCgplY2hvICItLS0gS2VybmVsIExvYWQgQ29t
-cGxldGUgLS0tIgo=
+#!/bin/bash
+# BugBountyOS Vector Import Utility (v2.0)
+
+EXECUTE=${EXECUTE:-0}
+
+VECTORS=(
+  "dashboard:https://github.com/canstralian/BugBountyBot"
+  "pipeline:https://github.com/canstralian/BugBountyPipeline"
+  "storage:https://github.com/canstralian/BugBountyManager"
+)
+
+echo "--- BugBountyOS Kernel: Vector Loading ---"
+
+for entry in "${VECTORS[@]}"; do
+  NAME="${entry%%:*}"
+  URL="${entry#:*}"
+  
+  echo "[KERNEL] Loading module: $NAME from $URL"
+  if [ "$EXECUTE" -eq 1 ]; then
+    git subtree add --prefix="vectors/$NAME" "$URL" main --squash
+  else
+    echo "[DRY-RUN] git subtree add --prefix='vectors/$NAME' ''$URL' main --squash"
+  fi
+done
+
+echo "--- Kernel Load Complete ---"
