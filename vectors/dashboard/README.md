@@ -1,2 +1,5 @@
-IyBEYXNoYm9hcmQgVmVjdG9yCgpSb2xlOiBWaXN1YWwgQ29ydGV4IChmcm9t
-IEJ1Z0JvdW50eUJvdCkKClN0YXR1czog8J+SvSBJbXBvcnRpbmcK
+# Dashboard Vector
+
+Role: Visual Cortex (from BugBountyBot)
+
+Status: 💽 Importing
