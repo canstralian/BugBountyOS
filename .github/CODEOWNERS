@@ -1,0 +1,20 @@
+# BugBountyOS code owners
+# Lines later in the file take precedence.
+
+* @canstralian
+
+# Quality gates
+/.github/workflows/ @canstralian
+/pyproject.toml @canstralian
+/.pre-commit-config.yaml @canstralian
+/SECURITY.md @canstralian
+
+# Vectors
+/vectors/dashboard/ @canstralian
+/vectors/pipeline/  @canstralian
+/vectors/storage/   @canstralian
+
+# Contracts + control plane
+/contracts/           @canstralian
+/control-plane/       @canstralian
+/kernel/constitution/ @canstralian

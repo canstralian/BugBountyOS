@@ -1,18 +1,23 @@
-aW1wb3J0IG9zCmltcG9ydCBqc29uCmZyb20gdHlwaW5nIGltcG9ydCBMaXN0LCBE
-aWN0CgpjbGFzcyBBaXJ0YWJsZVNjb3BlQWRhcHRlcjoKICAgIGRlZiBfX2lu
-aXRfXyhzZWxmKToKICAgICAgICAiIiJJbml0aWFsaXplIHRoZSBBaXJ0YWJs
-ZSBhZGFwdGVyIHdpdGggYmFzZSBjb25maWcuIiIiCiAgICAgICAgc2VsZi5i
-YXNlX2lkID0gImFwcFQ0elIxeWJ4Z3J1akJEIgogICAgICAgIHNlbGYuc2Nv
-cGVfcnVsZXNfdGFibGUgPSAiU2NvcGUgUnVsZXMiCgogICAgZGVmIGdldF9h
-Y3RpdmVfc2NvcGUoc2VsZikgLT4gTGlzdFtEaWN0XToKICAgICAgICAiIiJG
-ZXRjaGVzIGFsbCAnaW4tc2NvcGUnIGVudGl0aWVzIGZyb20gQWlydGFibGUu
-IiIiCiAgICAgICAgIyBUaGlzIGlzIGEgc3R1YiBmb3IgdGhlIGxpdmUgQVBJ
-IGNhbGwuCiAgICAgICAgIyBJbiBhbiBleGVjdXRpb24gY29udGV4dCwgdGhp
-cyB3b3VsZCB1c2UgdGhlIEFJUlRBQkxFX0xJU1RfUkVDT1JEUyB0b29sLgog
-ICAgICAgIHJldHVybiBbXQoKICAgIGRlZiBpc19hdXRob3JpemVkKHNlbGYs
-IGFzc2V0X2lkOiBzdHIpIC0+IGJvb2w6CiAgICAgICAgIiIiVmVyaWZpZXMg
-aWYgYSBzcGVjaWZpYyBhc3NldCBpcyBtYXJrZWQgYXMgJ0luIFNjb3BlJy4i
-IiIKICAgICAgICByZXR1cm4gRmFsc2UKCmlmIF9fbmFtZV9fID09ICJfX21h
-aW4fXyI6CiAgICBhZGFwdGVyID0gQWlydGFibGVTY29wZUFkYXB0ZXIoKQog
-ICAgcHJpbnQoIltBSVJUQUJMRV0gQWRhcHRlciBpbml0aWFsaXplZCBmb3Ig
-YmFzZTogIiwgYWRhcHRlci5iYXNlX2lkKQo=
+import os
+
+
+class AirtableScopeAdapter:
+    def __init__(self) -> None:
+        """Initialize the Airtable adapter with base config."""
+        self.base_id = os.getenv("AIRTABLE_BASE_ID", "appT4zR1ybxgrujBD")
+        self.scope_rules_table = "Scope Rules"
+
+    def get_active_scope(self) -> list[dict]:
+        """Fetches all 'in-scope' entities from Airtable."""
+        # Stub for the live API call.
+        # In an execution context, this would use the AIRTABLE_LIST_RECORDS tool.
+        return []
+
+    def is_authorized(self, asset_id: str) -> bool:
+        """Verifies if a specific asset is marked as 'In Scope'."""
+        return False
+
+
+if __name__ == "__main__":
+    adapter = AirtableScopeAdapter()
+    print("[AIRTABLE] Adapter initialized for base:", adapter.base_id)

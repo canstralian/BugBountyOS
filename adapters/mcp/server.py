@@ -1,12 +1,27 @@
-ZnJvbSBtY3Auc2VydmVyLmZhc3RtY3AgaW1wb3J0IEZhc3RNQ1AKCm1jcCA9
-IEZhc3RNQ1AoIkJ1Z0JvdW50eU9TIEtlcm5lbCIpCgpAbWNwLnRvb2woKQpk
-ZWYgY2hlY2tfc2NvcGUoYXNzZXRfaWQ6IHN0cikgLT4gc3RyOgogICAgIiIi
-UXVlcnkgdGhlIEJ1Z0JvdW50eU9TIEltbXVuZSBTeXN0ZW0gdG8gdmVyaWZ5
-IGlmIGFuIGFzc2V0IGlzIGF1dGhvcml6ZWQuIiIiCiAgICByZXR1cm4gIklt
-cG9ydGluZyBBaXJ0YWJsZSBBZGFwdGVyLi4uIEN1cnJlbnRseSBQZXJtaXNz
-aXZlIG1vZGUuIgoKQG1jcC50b29sKCkKZGVmIGxpc3RfdmVjdG9ycygpIC0+
-IGxpc3Q6CiAgICAiIiJSZXR1cm4gdGhlIGN1cnJlbnQgc3RhdGUgb2YgdGhl
-IFZlY3RvciBSZWdpc3RyeS4iIiIKICAgIHJldHVybiBbImRhc2hib2FyZCIs
-ICJwaXBlbGluZSIsICJzdG9yYWdlIiwgInJlZC1zYWdlIl0KCmlmIF9fbmFt
-ZV9fID09ICJfX21haW5fXyI6CiAgICBtY3AucnVuKHRyYW5zcG9ydD0ic3Rk
-aW8iKQo=
+from pathlib import Path
+
+import yaml
+from mcp.server.fastmcp import FastMCP
+
+_REGISTRY_PATH = (
+    Path(__file__).resolve().parent.parent.parent / "control-plane" / "registry" / "vectors.yaml"
+)
+
+mcp = FastMCP("BugBountyOS Kernel")
+
+
+@mcp.tool()
+def check_scope(asset_id: str) -> str:
+    """Query the BugBountyOS Immune System to verify if an asset is authorized."""
+    return "Importing Airtable Adapter... Currently Permissive mode."
+
+
+@mcp.tool()
+def list_vectors() -> list[str]:
+    """Return the current state of the Vector Registry, sourced from vectors.yaml."""
+    data = yaml.safe_load(_REGISTRY_PATH.read_text())
+    return [vector["id"] for vector in data.get("vectors", [])]
+
+
+if __name__ == "__main__":
+    mcp.run(transport="stdio")

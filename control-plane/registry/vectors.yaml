@@ -1,14 +1,28 @@
-dmVjdG9yczoKICAtIGlkOiBkYXNoYm9hcmQKICAgIHJvbGU6IHZpc3VhbC1j
-b3J0ZXgKICAgIHN0YXRlOiBpbXBvcnRpbmcKICAgIHRydXN0X2xldmVsOiBw
-ZXJtaXNzaXZlCiAgICBzb3VyY2VfcmVwbzogY2Fuc3RyYWxpYW4vQnVnQm91
-bnR5Qm90CiAgICBjb250cmFjdF92ZXJzaW9uOiAxCgogIC0gaWQ6IHBpcGVs
-aW5lCiAgICByb2xlOiBtZXRhYm9saXNtCiAgICBzdGF0ZTogaW1wb3J0aW5n
-CiAgICB0cnVzdF9sZXZlbDogcGVybWlzc2l2ZQogICAgc291cmNlX3JlcG86
-IGNhbnN0cmFsaWFuL0J1Z0JvdW50eVBpcGVsaW5lCiAgICBjb250cmFjdF92
-ZXJzaW9uOiAxCgogIC0gaWQ6IHN0b3JhZ2UKICAgIHJvbGU6IG1lbW9yeQog
-ICAgc3RhdGU6IGltcG9ydGluZwogICAgdHJ1c3RfbGV2ZWw6IHBlcm1pc3Np
-dmUKICAgIHNvdXJjZV9yZXBvOiBjYW5zdHJhbGlhbi9CdWdCb3VudHlNYW5h
-Z2VyCiAgICBjb250cmFjdF92ZXJzaW9uOiAxCgogIC0gaWQ6IHJlZC1zYWdl
-CiAgICByb2xlOiByZWZsZXgKICAgIHN0YXRlOiBwZW5kaW5nCiAgICB0cnVz
-dF9sZXZlbDogdGFpbnRlZAogICAgc291cmNlX3JlcG86IGNhbnN0cmFsaWFu
-L1JlZFNhZ2VCb3QKICAgIGNvbnRyYWN0X3ZlcnNpb246IDAK
+vectors:
+  - id: dashboard
+    role: visual-cortex
+    state: importing
+    trust_level: permissive
+    source_repo: canstralian/BugBountyBot
+    contract_version: 1
+
+  - id: pipeline
+    role: metabolism
+    state: importing
+    trust_level: permissive
+    source_repo: canstralian/BugBountyPipeline
+    contract_version: 1
+
+  - id: storage
+    role: memory
+    state: importing
+    trust_level: permissive
+    source_repo: canstralian/BugBountyManager
+    contract_version: 1
+
+  - id: red-sage
+    role: reflex
+    state: pending
+    trust_level: tainted
+    source_repo: canstralian/RedSageBot
+    contract_version: 0
