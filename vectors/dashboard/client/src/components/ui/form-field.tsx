@@ -23,7 +23,11 @@ export function FormField({
 }: FormFieldProps) {
   const hintId = hint ? `${id}-hint` : undefined;
   const errorId = error ? `${id}-error` : undefined;
-  const describedBy = [hintId, errorId].filter(Boolean).join(" ") || undefined;
+  const childDescribedBy = (children.props as { "aria-describedby"?: string })[
+    "aria-describedby"
+  ];
+  const describedBy =
+    [childDescribedBy, hintId, errorId].filter(Boolean).join(" ") || undefined;
 
   const child = React.cloneElement(children, {
     ...children.props,
@@ -49,7 +53,6 @@ export function FormField({
         <p
           id={errorId}
           role="alert"
-          aria-live="polite"
           className="text-xs font-medium text-destructive"
         >
           {error}

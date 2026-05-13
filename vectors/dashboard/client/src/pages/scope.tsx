@@ -88,9 +88,11 @@ export default function ScopePage() {
           },
         },
       );
+      const name = values.name.trim();
+      const scopeRef = values.scopeUrl.trim();
       programsStore.getState().setPrograms([
         ...programsStore.getState().programs,
-        { id: crypto.randomUUID(), name: values.name, scopeRef: values.scopeUrl },
+        { id: crypto.randomUUID(), name, scopeRef },
       ]);
       navigate("/");
     } finally {

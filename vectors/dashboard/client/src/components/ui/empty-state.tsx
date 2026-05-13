@@ -16,6 +16,15 @@ const variantBorder: Record<NonNullable<EmptyStateProps["variant"]>, string> = {
   error: "border-destructive/40 bg-destructive/5",
 };
 
+const variantRole: Record<
+  NonNullable<EmptyStateProps["variant"]>,
+  "status" | "alert"
+> = {
+  empty: "status",
+  filtered: "status",
+  error: "alert",
+};
+
 export function EmptyState({
   icon,
   title,
@@ -28,7 +37,7 @@ export function EmptyState({
 }: EmptyStateProps) {
   return (
     <div
-      role="status"
+      role={variantRole[variant]}
       className={cn(
         "flex flex-col items-center justify-center gap-3 rounded-lg border p-6 text-center sm:p-10",
         variantBorder[variant],

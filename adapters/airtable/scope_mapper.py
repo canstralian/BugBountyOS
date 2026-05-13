@@ -16,6 +16,6 @@ class AirtableScopeAdapter:
         """Verifies if a specific asset is marked as 'In Scope'."""
         return False
 
-if __name__ == "__main_":
+if __name__ == "__main__":
     adapter = AirtableScopeAdapter()
     print("[AIRTABLE] Adapter initialized for base: ", adapter.base_id)

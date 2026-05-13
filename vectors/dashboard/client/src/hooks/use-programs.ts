@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { create } from "zustand";
 
 export interface Program {
@@ -29,11 +28,6 @@ export function usePrograms() {
   const programs = store((s) => s.programs);
   const isLoading = store((s) => s.isLoading);
   const error = store((s) => s.error);
-
-  useEffect(() => {
-    // Placeholder for real fetch wiring; intentionally a no-op stub.
-  }, []);
-
   return { programs, isLoading, error };
 }
 
