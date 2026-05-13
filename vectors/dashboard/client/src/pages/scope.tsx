@@ -29,8 +29,9 @@ function validate(values: FormValues): FormErrors {
   if (values.name.trim().length < 2) {
     errors.name = "Workspace name must be at least 2 characters.";
   }
+  const scopeUrl = values.scopeUrl.trim();
   try {
-    if (values.scopeUrl) new URL(values.scopeUrl);
+    if (scopeUrl) new URL(scopeUrl);
     else errors.scopeUrl = "Scope source URL is required.";
   } catch {
     errors.scopeUrl = "Enter a valid URL (including https://).";
@@ -65,22 +66,27 @@ export default function ScopePage() {
     event.preventDefault();
     setTouched({ name: true, scopeUrl: true });
     if (hasErrors) {
-      const firstInvalid = (event.currentTarget as HTMLFormElement).querySelector(
-        "[aria-invalid='true']",
-      ) as HTMLElement | null;
-      firstInvalid?.focus();
+      const form = event.currentTarget as HTMLFormElement;
+      requestAnimationFrame(() => {
+        const firstInvalid = form.querySelector(
+          "[aria-invalid='true']",
+        ) as HTMLElement | null;
+        firstInvalid?.focus();
+      });
       return;
     }
 
     setSubmitting(true);
     try {
+      const name = values.name.trim();
+      const scopeRef = values.scopeUrl.trim();
       await toast.promise(
         new Promise<void>((resolve) => setTimeout(resolve, 600)),
         {
           loading: { title: "Creating workspace…" },
           success: {
             title: "Workspace created",
-            description: `${values.name} is ready.`,
+            description: `${name} is ready.`,
           },
           error: {
             title: "Couldn't create workspace",
@@ -88,12 +94,13 @@ export default function ScopePage() {
           },
         },
       );
-      const name = values.name.trim();
-      const scopeRef = values.scopeUrl.trim();
-      programsStore.getState().setPrograms([
-        ...programsStore.getState().programs,
-        { id: crypto.randomUUID(), name, scopeRef },
-      ]);
+      programsStore.setState((state) => ({
+        programs: [
+          ...state.programs,
+          { id: crypto.randomUUID(), name, scopeRef },
+        ],
+        error: null,
+      }));
       navigate("/");
     } finally {
       setSubmitting(false);
