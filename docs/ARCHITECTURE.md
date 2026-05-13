@@ -1,1 +1,38 @@
-IyBCdWdCb3VudHlPUyBBcmNoaXRlY3R1cmU6IFRoZSBTZWN1cml0eSBPUyBGcmFtZQoKIyMgRXhlY3V0aXZlIFN1bW1hcnkKQnVnQm91bnR5T1MgaXMgYSAqKnNlY3VyaXR5IG9wZXJhdGluZyBzeXN0ZW0qKi4gSXQgZ292ZXJucyBzcGVjaWZpYyByb3V0YWJsZSAqKlZlY3RvcnMqKiB3aXRob3V0IGRlc3Ryb3lpbmcgdGhlaXIgc2VtYW50aWMgaWRlbnRpdHkuCgotICoqTGludXggTW9kZWwqKjogU2hhcmVkIGJ1aWxkIG1vZGVsIGZvciBpbi10cmVlIGFuZCBvdXQtb2YtdHJlZSBtb2R1bGVzLgotICoqT1BBIChPcGVuIFBvbGljeSBBZ2VudCkqKjogRGVjb3VwbGVzIHBvbGljeSBkZWNpc2lvbi1tYWtpbmcgZnJvbSBlbmZvcmNlbWVudC4KLSAqKk5JU1QgWmVybyBUcnVzdCoqOiBEeW5hbWljIGdvdmVybmFuY2UgdmlhIHN0YXR1cyBhc3Nlc3NtZW50cyBhbmQgdGVsZW1ldHJ5LgoKIyMgVGhlIEtlcm5lbCAoQ29uc3RpdHV0aW9uYWwgTGF5ZXIpCgotICoqS2VybmVsKiogUG9saWN5IGRlY2lzaW9uLCBhdWRpdCBlbGlnaWJpbGl0eSwgYW5kIHJvdXRpbmcgYXV0aG9yaXR5LgotICoqQ29udHJvbCBQbGFuZSoqOiBWZWN0b3IgcmVnaXN0cnksIGxpZmVjeWNsZSBzdGF0ZXMsIGFuZCB0ZWxlbWV0cnkuCi0gICoqVmVjdG9ycyoqOiBTcGVjaWFsaXplZCBjYXBhYmlsaXRpZXMgKFJlZFNhZ2UsIEFUREEsIFNlbnRpbmVsKS4KCiMjIFZlY3RvciBMaWZlY3ljbGUgKFRyYWZmaWMtTGlnaHQgU2VtYW50aWNzKQoKfCBTdGF0ZSB8IENvbG9yIHwgTWVhbmluZyB8IERlZmF1bHQgUm91dGluZyB8CnwtLS18LS0tfC0tLXwtLS18CiB8IEltcG9ydGluZyB8IFllbGxvdyB8IEluZ2VzdGVkLCBub3QgeWV0IHRydXN0ZWQgZm9yIGRlZmF1bHQgZXhlY3V0aW9uIHwgTWFudWFsIG9ubHkgfAogfCBBY3RpdmUgfCBCbHVlL0dyZWVuIHwgUm91dGFibGUgdW5kZXIgY29uc3RpdHV0aW9uYWwgZ3VhcmRyYWlscyB8IENvbmRpdGlvbmFsIHwKIHwgQ2Fub25pY2FsIHwgR3JlZW4gfCBQcmVmZXJyZWQgaW1wbGVtZW50YXRpb24gZm9yIGEgbmFtZWQgZnVuY3Rpb24gfCBEZWZhdWx0IHwKIHwgUXVhcmFudGluZWQgfCBSZWQgfCBGYWlsZWQgcG9saWN5LCBoZWFsdGgsIHNpZ25hdHVyZSwgb3IgdGVsZW1ldHJ5IGdhdGUgfCBCbG9ja2VkIHwKCiMjIFByb21vdGlvbiBGbG93CmBgYG1lcm1haWQKZmxvd2NoYXJ0IFRECiAgICBBW1NvdXJjZSByZXBvIG9yIHN1YnRyZWVdIC0tPiBCW0ltcG9ydGluZ10KICAgIEIgLS0+IEN7Q29udHJhY3QgdmFsaWQ/fQogICAgQyAtLSBubyAtLT4gUVtRdWFyYW50aW5lZF0KICAgIEMgLS0geWVzIC0tPiBEe1NpZ25hdHVyZSBhbmQgcG9saWN5IHRlc3RzIHBhc3M/fQogICAgRCAtLSBubyAtLT4gUQogICAgRCAtLSB5ZXMgLS0+IEVbQWN0aXZlXQogICAgRSAtLS4gRntUZWxlbWV0cnkgc3RhYmxlIGFuZCByb2xlIHByb3Zlbj99CiAgICBGIC0tIG5vIC0tPiBFCiAgICBGIC0tIHllcyAtLT4gR1tDYW5vbmljYWxdCiAgICBHLS0+IEhbRGVmYXVsdCByb3V0aW5nXQpgYGA=
+# BugBountyOS Architecture: The Security OS Frame
+
+## Executive Summary
+BugBountyOS is a **security operating system**. It governs specific routable **Vectors** without destroying their semantic identity.
+
+- **Linux Model**: Shared build model for in-tree and out-of-tree modules.
+- **OPA (Open Policy Agent)**: Decouples policy decision-making from enforcement.
+- **NIST Zero Trust**: Dynamic governance via status assessments and telemetry.
+
+## The Kernel (Constitutional Layer)
+
+- **Kernel** Policy decision, audit eligibility, and routing authority.
+- **Control Plane**: Vector registry, lifecycle states, and telemetry.
+-  **Vectors**: Specialized capabilities (RedSage, ATDA, Sentinel).
+
+## Vector Lifecycle (Traffic-Light Semantics)
+
+| State | Color | Meaning | Default Routing |
+|---|---|---|---|
+ | Importing | Yellow | Ingested, not yet trusted for default execution | Manual only |
+ | Active | Blue/Green | Routable under constitutional guardrails | Conditional |
+ | Canonical | Green | Preferred implementation for a named function | Default |
+ | Quarantined | Red | Failed policy, health, signature, or telemetry gate | Blocked |
+
+## Promotion Flow
+```mermaid
+flowchart TD
+    A[Source repo or subtree] --> B[Importing]
+    B --> C{Contract valid?}
+    C -- no --> Q[Quarantined]
+    C -- yes --> D{Signature and policy tests pass?}
+    D -- no --> Q
+    D -- yes --> E[Active]
+    E -.-> F{Telemetry stable and role proven?}
+    F -- no --> E
+    F -- yes --> G[Canonical]
+    G--> H[Default routing]
+```

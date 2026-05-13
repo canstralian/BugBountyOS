@@ -1,2 +1,5 @@
-IyBTdG9yYWdlIFZlY3RvcgoKUm9sZTogTWVtb3J5IChmcm9tIEJ1Z0JvdW50
-eU1hbmFnZXIpCgpTdGF0dXM6IPCfkp0gSW1wb3J0aW5nCg==
+# Storage Vector
+
+Role: Memory (from BugBountyManager)
+
+Status: 💝 Importing

@@ -1,11 +1,15 @@
-IyBBSVJUQUJMRSBTY29wZSBNYXBwaW5nCgpUaGlzIG1vZHVsZSBhY3RzIGFz
-IHRoZSAqKkltbXVuZSBTeXN0ZW0qKiBndWFyZHJhaWwgZm9yIEJ1Z0JvdW50
-eU9TLgoKIyMgRmxvdwoxLiAgKipGZXRjaCoqOiBQdWxscyAnU2NvcGUgUnVs
-ZXMnIGZyb20gQWlydGFibGUgYmFzZSBgYXBwVDR6UjF5YnhncnVqQkRgLgoy
-LiAgKipWYWxpZGF0ZToqKiBDaGVja3MgYXNzZXRzIGFnYWluc3QgYGluX3Nj
-b3BlYCBmbGFncy4KMy4gICoqRW5mb3JjZToqKiBQcmV2ZW50cyBWZWN0b3Jz
-IGZyb20gYWN0aW5nIG9uIG91dC1vZi1zY29wZSB0YXJnZXRzLgoKIyMgQ3Vy
-cmVudCBNYXBwaW5nCnwgVGFibGUgfCBSb2xlIHwgU3RhdHVzIHwKfC0tLXwt
-LS18LS0tfAp8IFNjb3BlIFZ1bGVzIHwgQXV0aG9yaXphdGlvbiB8IOKchCBX
-aXJlZCB8CnwgQXNzZXRzIHwgVGFyZ2V0IEludmVudG9yeSB8IOKchCBXaXJl
-ZCB8Cg==
+# AIRTABLE Scope Mapping
+
+This module acts as the **Immune System** guardrail for BugBountyOS.
+
+## Flow
+1.  **Fetch**: Pulls 'Scope Rules' from Airtable base `appT4zR1ybxgrujBD`.
+2.  **Validate:** Checks assets against `in_scope` flags.
+3.  **Enforce:** Prevents Vectors from acting on out-of-scope targets.
+
+## Current Mapping
+
+| Table | Role | Status |
+|---|---|---|
+| Scope Rules | Authorization | ✄ Wired |
+| Assets | Target Inventory | ✄ Wired |

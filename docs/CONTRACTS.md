@@ -1,16 +1,16 @@
-IyBWZWN0b3IgTW9kdWxlIENvbnRyYWN0cwoKRXZlcnkgaW1wb3J0ZWQgdmVj
-dG9yIG11c3QgY2xlYXIgZml2ZSBnYXRlcyBiZWZvcmUgaXRzIHN0YW5kYWxv
-bmUgcmVwb3NpdG9yeSBpcyBkZXByZWNhdGVkLgoKIyMgVGhlIEZpdmUgR2F0
-ZXMKMS4gICoqQ29udHJhY3QgU2lnbmVkOioqIFR5cGVkIGludGVyZmFjZXMg
-KEluL091dCkgYXJlIGRlZmluZWQuCjIuICAqKlRlc3RzIFBhc3M6KiogVmVj
-dG9yLWxldmVsIHVuaXQgdGVzdHMgcmVtYWluIGdyZWVuLgozLiAgKipTcGVj
-IEtpdCBTY29yZToqKiBNdXN0IGFjaGlldmUg4omlIDI3LjUvMzUgb24gdGhl
-IENvbXBsaWFuY2UgQXVkaXQuCjQuICAqKkludGVncmF0aW9uIFBhc3M6Kiog
-RW5kLXRvLWVuZCBmbG93IHZlcmlmaWVkIGluIEJ1Z0JvdW50eU9TIENJLgo1
-LiAgKipPd25lciBBcHByb3ZhbDoqKiBGaW5hbCBzaWduLW9mZiBieSBXaGFj
-a3RoZUphY2tlci4KCgojIyBDdXJyZW50IFZlY3RvciBDb250cmFjdHMKLSAq
-KkRhc2hib2FyZCBWZWN0b3I6KiogUmVxdWlyZXMgTmV4dC5qcyAxNSsgYW5k
-IERyaXp6bGUgY29tcGxpYW5jZS4KLSAqKlBpcGVsaW5lIFZlY3RvcjoqKiBS
-ZXF1aXJlcyBNaXN0cmFsL0NsYXVkZSBkdWFsLXByb3ZpZGVyIHN1cHBvcnQu
-Ci0gKipTdG9yYWdlIFZlY3RvcjoqKiBSZXF1aXJlcyBTbm93Zmxha2UtbmF0
-aXZlIERETCBwYXJpdHku
+# Vector Module Contracts
+
+Every imported vector must clear five gates before its standalone repository is deprecated.
+
+## The Five Gates
+1.  **Contract Signed:** Typed interfaces (In/Out) are defined.
+2.  **Tests Pass:** Vector-level unit tests remain green.
+3.  **Spec Kit Score:** Must achieve ≥ 27.5/35 on the Compliance Audit.
+4.  **Integration Pass:** End-to-end flow verified in BugBountyOS CI.
+5.  **Owner Approval:** Final sign-off by WhacktheJacker.
+
+
+## Current Vector Contracts
+- **Dashboard Vector:** Requires Next.js 15+ and Drizzle compliance.
+- **Pipeline Vector:** Requires Mistral/Claude dual-provider support.
+- **Storage Vector:** Requires Snowflake-native DDL parity.
