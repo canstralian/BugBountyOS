@@ -8,6 +8,7 @@ This module acts as the **Immune System** guardrail for BugBountyOS.
 3.  **Enforce:** Prevents Vectors from acting on out-of-scope targets.
 
 ## Current Mapping
+
 | Table | Role | Status |
 |---|---|---|
 | Scope Rules | Authorization | ✄ Wired |
