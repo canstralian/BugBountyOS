@@ -1,5 +1,3 @@
-import os
-from typing import Optional, Dict
 class NLPProcessor:
-    def __init__(self):
+    def __init__(self) -> None:
         pass
