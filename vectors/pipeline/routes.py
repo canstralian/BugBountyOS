@@ -1,5 +1,7 @@
-from flask import jsonify
 from app import app
-@app.route('/api/health')
+from flask import jsonify
+
+
+@app.route("/api/health")
 def health():
-    return jsonify({'status': 'ok'})
+    return jsonify({"status": "ok"})

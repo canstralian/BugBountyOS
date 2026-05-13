@@ -1,11 +1,34 @@
-IyBCdWdCb3VudHlPUyBNQ1AgU2VydmVyCgpUaGlzIGFkYXB0ZXIgdHVybnMg
-QnVnQm91bnR5T1MgaW50byBhbiAqKkF1dGhvcml0YXRpdmUgQ29udGV4dCBQ
-cm92aWRlcioqIGZvciBvdGhlciBBSSBhZ2VudHMuCgojIyBUb29scyBFeHBv
-c2VkCiogICAqKmNoZWNrX3Njb3BlKio6IFZlcmlmaWVzIGFzc2V0IGF1dGhv
-cml6YXRpb24gdmlhIHRoZSBBaXJ0YWJsZSBJbW11bmUgU3lzdGVtLgoqICAg
-KipsaXN0X3ZlY3RvcnMqKjogU3VyZmFjZXMgdGhlIGN1cnJlbnQgcmVnaXN0
-cnkgYW5kIHRydXN0IGxldmVscy4KKiAgICoqZ2V0X2NvbnN0aXR1dGlvbioq
-OiBEZWxpdmVycyB0aGUgS2VybmVsIHBvbGljeSBidW5kbGUuCgojIyBVc2Fn
-ZQpgYGBqc29uCnsKICAibWNwU2VydmVycyI6IHsKICAgICJidWdib3VudHlv
-cyI6IHsKICAgICAgImNvbW1hbmQiOiAicHl0aG9uIiwKICAgICAgImFyZ3Mi
-OiBbImFkYXB0ZXJzL21jcC9zZXJ2ZXIucHkiXQogICAgfQogIH0KfQpgYGBK
+# BugBountyOS MCP Server
+
+This adapter turns BugBountyOS into an **Authoritative Context Provider** for other AI agents.
+
+## Tools Exposed
+
+* **check_scope**: Verifies asset authorization via the Airtable Immune System.
+* **list_vectors**: Surfaces the current registry and trust levels from `control-plane/registry/vectors.yaml`.
+* **get_constitution**: Delivers the Kernel policy bundle from `kernel/constitution/INTERFACE.md`.
+
+## Usage
+
+```json
+{
+  "mcpServers": {
+    "bugbountyos": {
+      "command": "python",
+      "args": ["adapters/mcp/server.py"]
+    }
+  }
+}
+```
+
+## Security Validation Evidence
+
+The MCP adapter is security-sensitive because it exposes authorization and policy context to agents. Changes to this surface are validated by:
+
+* `ruff check .` for static Python linting.
+* `pytest -q` for registry-loading, scope, and import-script behavior.
+* `bash -n import_vectors.sh` plus ShellCheck in CI for shell safety.
+* CodeQL Python analysis in `.github/workflows/security.yml`.
+* Semgrep default rules in `.github/workflows/security.yml`.
+
+MCP tools intentionally return local repository state only; no network calls, shell execution, or credential reads are performed by `adapters/mcp/server.py`.
