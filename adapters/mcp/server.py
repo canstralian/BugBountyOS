@@ -19,8 +19,11 @@ def check_scope(asset_id: str) -> str:
 @mcp.tool()
 def list_vectors() -> list:
     """Return the current state of the Vector Registry."""
-    data = yaml.safe_load(REGISTRY_PATH.read_text())
-    return [v["id"] for v in data["vectors"]]
+    try:
+        data = yaml.safe_load(REGISTRY_PATH.read_text())
+        return [v["id"] for v in data["vectors"]]
+    except (OSError, yaml.YAMLError, KeyError, TypeError):
+        return []
 
 
 if __name__ == "__main__":

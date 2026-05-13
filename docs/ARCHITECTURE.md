@@ -31,7 +31,7 @@ flowchart TD
     C -- yes --> D{Signature and policy tests pass?}
     D -- no --> Q
     D -- yes --> E[Active]
-    E --. F{Telemetry stable and role proven?}
+    E -.-> F{Telemetry stable and role proven?}
     F -- no --> E
     F -- yes --> G[Canonical]
     G--> H[Default routing]

@@ -17,4 +17,4 @@ This adapter turns BugBountyOS into an **Authoritative Context Provider** for ot
     }
   }
 }
-```J
+```

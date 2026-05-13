@@ -10,5 +10,5 @@ This module acts as the **Immune System** guardrail for BugBountyOS.
 ## Current Mapping
 | Table | Role | Status |
 |---|---|---|
-| Scope Vules | Authorization | ✄ Wired |
+| Scope Rules | Authorization | ✄ Wired |
 | Assets | Target Inventory | ✄ Wired |
