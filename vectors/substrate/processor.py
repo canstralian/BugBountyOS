@@ -26,7 +26,6 @@ from .guardrails import (
     InputScanner,
     OutputValidator,
     ScanResult,
-    ThreatLevel,
     ValidationResult,
     apply_sandwich_defense,
     apply_structured_separation,

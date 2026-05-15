@@ -17,16 +17,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check build prerequisites
+        id: prereq
+        run: |
+          if [ ! -d "distro/live-build" ]; then
+            echo "distro/live-build not yet present — skipping ISO build (Phase 1 scaffolding)"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Install live-build dependencies
+        if: steps.prereq.outputs.skip == 'false'
         run: |
           sudo apt-get update
           sudo apt-get install -y live-build debootstrap xorriso squashfs-tools
 
       - name: Prepare build directories
+        if: steps.prereq.outputs.skip == 'false'
         run: |
           mkdir -p dist
 
       - name: Build ISO
+        if: steps.prereq.outputs.skip == 'false'
         run: |
           cd distro/live-build
           sudo lb clean || true
@@ -34,11 +47,14 @@ jobs:
           sudo lb build
 
       - name: Collect ISO artifact
+        if: steps.prereq.outputs.skip == 'false'
         run: |
           find distro/live-build -maxdepth 2 -type f \( -name "*.iso" -o -name "*.img" \) -exec cp {} dist/ \;
 
       - name: Upload ISO artifact
+        if: steps.prereq.outputs.skip == 'false'
         uses: actions/upload-artifact@v4
         with:
           name: bugbountyos-iso
           path: dist/*
+          if-no-files-found: error
