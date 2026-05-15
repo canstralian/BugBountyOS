@@ -22,7 +22,7 @@ from typing import Dict, List, Optional
 
 
 _PII_PATTERNS: List[tuple[re.Pattern, str]] = [
-    (re.compile(r"\b\d{3}[-.]?\d{2}[-.]?\d{4}\b"), "ssn"),
+    (re.compile(r"\b\d{3}(?:([-.]?)\d{2}\1\d{4})\b"), "ssn"),
     (re.compile(r"\b\d{4}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b"), "credit_card"),
     (re.compile(r"\b[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}\b"), "email"),
     (re.compile(
