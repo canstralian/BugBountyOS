@@ -15,5 +15,21 @@ function requireDatabaseUrl(): string {
 export const db = drizzle({
   connection: requireDatabaseUrl(),
   schema,
-  ws,
-});
+import ws from "ws";
+import * as schema from "@db/schema";
+import { Pool, neonConfig } from "@neondatabase/serverless";
+
+neonConfig.webSocketConstructor = ws;
+
+function requireDatabaseUrl(): string {
+  const databaseUrl = process.env.DATABASE_URL;
+
+  if (!databaseUrl) {
+    throw new Error("DATABASE_URL is required to initialize the dashboard database client");
+  }
+
+  return databaseUrl;
+}
+
+const pool = new Pool({ connectionString: requireDatabaseUrl() });
+export const db = drizzle(pool, { schema });
