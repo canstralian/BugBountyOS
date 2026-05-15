@@ -10,11 +10,13 @@ interface UseProgramsState {
   error: string | null;
 }
 
-export const usePrograms = (): UseProgramsState => ({
+const DEFAULT_PROGRAMS_STATE: UseProgramsState = {
   programs: [],
   isLoading: false,
   error: null,
-});
+};
+
+export const usePrograms = (): UseProgramsState => DEFAULT_PROGRAMS_STATE;
 import { create } from "zustand";
 
 export interface Program {
