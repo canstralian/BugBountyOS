@@ -1,3 +1,5 @@
+from typing import List, Dict
+
 
 class AirtableScopeAdapter:
     def __init__(self):
@@ -5,7 +7,7 @@ class AirtableScopeAdapter:
         self.base_id = "appT4zR1ybxgrujBD"
         self.scope_rules_table = "Scope Rules"
 
-    def get_active_scope(self) -> list[dict]:
+    def get_active_scope(self) -> List[Dict]:
         """Fetches all 'in-scope' entities from Airtable."""
         # This is a stub for the live API call.
         # In an execution context, this would use the AIRTABLE_LIST_RECORDS tool.
