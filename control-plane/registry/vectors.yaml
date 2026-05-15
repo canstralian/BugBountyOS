@@ -22,7 +22,28 @@ vectors:
 
   - id: red-sage
     role: reflex
-    state: pending
-    trust_level: tainted
+    state: importing
+    trust_level: permissive
     source_repo: canstralian/RedSageBot
-    contract_version: 0
+    contract_version: 1
+
+  - id: cognition
+    role: cognition
+    state: importing
+    trust_level: permissive
+    source_repo: canstralian/prompt-crafting
+    contract_version: 1
+
+  - id: sensory
+    role: peripheral-sensing
+    state: importing
+    trust_level: permissive
+    source_repo: canstralian/beryl-ax-pineapple
+    contract_version: 1
+
+  - id: recon
+    role: external-reconnaissance
+    state: importing
+    trust_level: permissive
+    source_repo: canstralian/PassiveOSIntControlPanel
+    contract_version: 1

@@ -1,5 +1,4 @@
 
-
 class AirtableScopeAdapter:
     def __init__(self):
         """Initialize the Airtable adapter with base config."""
