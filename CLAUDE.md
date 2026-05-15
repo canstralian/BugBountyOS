@@ -123,12 +123,14 @@ the distro tree to "fix" it; reference the README roadmap if asked.
 - **Vector READMEs** are intentionally one-liners stating role + status.
   Don't expand them into full docs unless asked — the contract YAML and
   `docs/CONTRACTS.md` are the source of truth.
-- **Some files (`docs/ARCHITECTURE.md`, `docs/CONTRACTS.md`,
-  `kernel/constitution/INTERFACE.md`, several `contracts/*.yaml`, adapter
-  READMEs) are base64-encoded on disk.** When asked to edit them, decode
-  first (`base64 -d <file>`), edit the plaintext, then re-encode if the
-  encoding was intentional — or ask the user whether to keep them
-  base64-encoded. Don't assume corruption.
+- **Several files are base64-encoded on disk**, including
+  `docs/ARCHITECTURE.md`, `docs/CONTRACTS.md`,
+  `kernel/constitution/INTERFACE.md`, `control-plane/registry/vectors.yaml`,
+  every `contracts/*.yaml`, and the adapter READMEs
+  (`adapters/airtable/README.md`, `adapters/mcp/README.md`). When asked to
+  edit them, decode first (`base64 -d <file>`), edit the plaintext, then
+  re-encode if the encoding was intentional — or ask the user whether to
+  keep them base64-encoded. Don't assume corruption.
 - **No emojis** in commit messages, code, or docs unless the user asks.
 - **No new top-level directories** without an entry in `tests/test_repo_structure.py`'s
   required-dirs list (currently: `adapters`, `contracts`, `docs`, `kernel`,
@@ -145,8 +147,9 @@ the distro tree to "fix" it; reference the README roadmap if asked.
   into "real" implementations — they're placeholders for subtree imports
   from `BugBountyPipeline` and `BugBountyManager`. Implementations land via
   `import_vectors.sh`, not handwritten code.
-- Don't add Python dependencies without a corresponding `requirements*.txt`
-  update — the CI install step is the only place deps materialize.
+- Don't add Python dependencies without updating the CI workflow
+  (`.github/workflows/ci.yml`) and any local `requirements-dev.txt` — the
+  CI install step is where dependencies are provisioned.
 - Don't push to `main` directly. Use the branch designated in the session
   prompt (currently `claude/add-claude-documentation-GP3GQ`) and open a draft PR.
 
@@ -154,8 +157,8 @@ the distro tree to "fix" it; reference the README roadmap if asked.
 
 | Question                                | File                                              |
 | --------------------------------------- | ------------------------------------------------- |
-| What vectors exist and their state?     | `control-plane/registry/vectors.yaml`             |
-| What does vector X promise?             | `contracts/<vector>.yaml`                         |
+| What vectors exist and their state?     | `control-plane/registry/vectors.yaml` (base64)    |
+| What does vector X promise?             | `contracts/<vector>.yaml` (base64)                |
 | What is the kernel API?                 | `kernel/constitution/INTERFACE.md` (base64)       |
 | What's the lifecycle/promotion model?   | `docs/ARCHITECTURE.md` (base64)                   |
 | What are the 5 gates?                   | `docs/CONTRACTS.md` (base64)                      |
