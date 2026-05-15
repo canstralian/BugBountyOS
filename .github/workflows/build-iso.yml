@@ -57,3 +57,4 @@ jobs:
         with:
           name: bugbountyos-iso
           path: dist/*
+          if-no-files-found: error
