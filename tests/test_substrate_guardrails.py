@@ -19,7 +19,6 @@ import pytest
 
 from vectors.substrate.guardrails.input_scanner import (
     InputScanner,
-    ScanResult,
     ThreatLevel,
     apply_sandwich_defense,
     apply_structured_separation,
@@ -27,14 +26,12 @@ from vectors.substrate.guardrails.input_scanner import (
 )
 from vectors.substrate.guardrails.output_validator import (
     OutputValidator,
-    ValidationResult,
     check_canary_token,
     detect_pii,
     detect_prompt_leakage,
 )
 from vectors.substrate.processor import (
     ProcessorConfig,
-    ProcessingResult,
     SubstrateProcessor,
 )
 
