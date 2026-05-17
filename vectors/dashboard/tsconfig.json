@@ -21,10 +21,18 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "baseUrl": ".",
-    "types": ["node", "vite/client"],
+    "types": [
+      "node",
+      "vite/client"
+    ],
     "paths": {
-      "@/*": ["./client/src/*"],
-      "@db/*": ["./db/*"]
-    }
+      "@/*": [
+        "./client/src/*"
+      ],
+      "@db/*": [
+        "./db/*"
+      ]
+    },
+    "ignoreDeprecations": "6.0"
   }
 }

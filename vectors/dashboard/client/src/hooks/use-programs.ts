@@ -1,3 +1,22 @@
+export interface BugBountyProgram {
+  id: number;
+  name: string;
+  scopes: string[];
+}
+
+interface UseProgramsState {
+  programs: BugBountyProgram[];
+  isLoading: boolean;
+  error: string | null;
+}
+
+const DEFAULT_PROGRAMS_STATE: UseProgramsState = {
+  programs: [],
+  isLoading: false,
+  error: null,
+};
+
+export const usePrograms = (): UseProgramsState => DEFAULT_PROGRAMS_STATE;
 import { create } from "zustand";
 
 export type ProgramStatus = 'Active' | 'Paused' | 'Draft' | 'Retired' | 'Invitation Only';
