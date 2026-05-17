@@ -26,4 +26,4 @@ vectors:
     trust_level: tainted
     source_repo: canstralian/RedSageBot
     contract_version: 0
->>>>>>> c2ff7fc (feat: replace stub CI workflows with real jobs)
+
