@@ -1,0 +1,59 @@
+vector_id: storage
+role: memory
+description: Append-only persistent state for findings, evidence, and tool runs.
+version: 1.0.0
+
+gates:
+  - id: contract_signed
+    name: Contract Signed
+    status: completed
+    description: REST API interfaces defined. Append-only log invariant enforced.
+
+  - id: tests_pass
+    name: Unit Tests
+    status: pending
+    requirement: API endpoint tests must pass; DELETE/UPDATE routes for audit tables must not exist.
+
+  - id: spec_kit_score
+    name: Spec Kit Compliance
+    status: pending
+    threshold: 27.5/35
+    metric: Compliance Audit v1.0
+
+  - id: integration_pass
+    name: Integration verified
+    status: pending
+    requirement: Dashboard reads and pipeline writes verified end-to-end.
+
+  - id: owner_approval
+    name: Final Sign-off
+    status: pending
+    approver: canstralian
+
+interfaces:
+  input:
+    - type: rest_write
+      source: pipeline
+      description: Structured findings and evidence written by pipeline after NLP processing.
+      endpoints:
+        - "POST /api/findings"
+        - "POST /api/evidence"
+        - "POST /api/tool-runs"
+
+  output:
+    - type: rest_read
+      target: dashboard
+      description: Findings, evidence, and tool runs consumed by the operator console.
+      endpoints:
+        - "GET /api/findings"
+        - "GET /api/findings/<id>"
+        - "GET /api/evidence"
+        - "GET /api/tool-runs"
+
+invariants:
+  - append_only_tables:
+      - findings
+      - evidence
+      - tool_runs
+    enforcement: No UPDATE or DELETE routes for these tables. Soft-delete via status field only.
+  - snowflake_parity: Every SQLAlchemy migration must have a matching Snowflake DDL file.

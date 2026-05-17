@@ -1,0 +1,53 @@
+vector_id: pipeline
+role: metabolism
+description: Reconnaissance event ingestion and NLP-driven action plan generation.
+version: 1.0.0
+
+gates:
+  - id: contract_signed
+    name: Contract Signed
+    status: completed
+    description: Input/output interfaces defined. Dual-provider AI rule in effect.
+
+  - id: tests_pass
+    name: Unit Tests
+    status: pending
+    requirement: Event ingestion and NLP output tests must achieve ≥90% fidelity.
+
+  - id: spec_kit_score
+    name: Spec Kit Compliance
+    status: pending
+    threshold: 27.5/35
+    metric: Compliance Audit v1.0
+
+  - id: integration_pass
+    name: Integration verified
+    status: pending
+    requirement: End-to-end event→action_plan flow verified with storage vector.
+
+  - id: owner_approval
+    name: Final Sign-off
+    status: pending
+    approver: canstralian
+
+interfaces:
+  input:
+    - type: event
+      source: red-sage
+      description: Raw reconnaissance findings as JSON.
+      schema:
+        target: "string — domain, IP, or URL"
+        findings: "array of {kind: string, value: string, confidence: float}"
+        timestamp: "string — ISO 8601"
+
+  output:
+    - type: action_plan
+      target: storage
+      description: Structured recommendations written to storage vector.
+      schema:
+        id: "string — uuid4"
+        target: "string"
+        recommendations: "array of {action: string, priority: high|medium|low, rationale: string}"
+        confidence: "float 0–1"
+        provider: "string — mistral|claude"
+        timestamp: "string — ISO 8601"

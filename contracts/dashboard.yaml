@@ -1,0 +1,81 @@
+vector_id: dashboard
+role: visual-cortex
+description: Operator console for BugBountyOS. Reads and displays scope, assets, evidence, findings, and vector health. Does not mutate state directly.
+version: 1.0.0
+
+gates:
+  - id: contract_signed
+    name: Contract Signed
+    status: completed
+    description: >
+      Read-only interface to storage REST API defined. Scan trigger routed
+      through pipeline (not executed directly). Five operator views scoped.
+
+  - id: tests_pass
+    name: Unit Tests
+    status: pending
+    requirement: Component and hook tests must pass; no direct tool-execution calls may exist in dashboard code.
+
+  - id: spec_kit_score
+    name: Spec Kit Compliance
+    status: pending
+    threshold: 27.5/35
+    metric: Compliance Audit v1.0
+
+  - id: integration_pass
+    name: Integration verified
+    status: pending
+    requirement: All five operator views render real data from storage vector in BugBountyOS CI.
+
+  - id: owner_approval
+    name: Final Sign-off
+    status: pending
+    approver: canstralian
+
+interfaces:
+  input:
+    - type: rest_read
+      source: storage
+      description: Reads findings, evidence, and tool runs from the storage REST API.
+      endpoints:
+        - "GET /api/findings"
+        - "GET /api/findings/<id>"
+        - "GET /api/evidence"
+        - "GET /api/tool-runs"
+
+  output:
+    - type: rest_write
+      target: pipeline
+      description: >
+        Scan triggers submitted to pipeline for processing — dashboard does NOT
+        execute reconnaissance tools directly. Replaces the direct nmap/whois/dns
+        calls currently in server/routes/recon.ts.
+      endpoints:
+        - "POST /api/events  (pipeline vector)"
+
+views:
+  - id: scope
+    description: Active scope manifest — targets, restrictions, timebox
+    priority: 1
+  - id: assets
+    description: Known domains, URLs, services enumerated from tool runs
+    priority: 2
+  - id: evidence
+    description: Artifacts with hash, kind, and target
+    priority: 3
+  - id: findings
+    description: Draft and submitted findings with severity
+    priority: 4
+  - id: status
+    description: Project summary and vector health
+    priority: 5
+
+invariants:
+  - no_direct_tool_execution: >
+      The dashboard must not import or invoke nmap, whois, dns-sync, or any
+      other reconnaissance tool. All scans are triggered via POST /api/events
+      to the pipeline vector. server/routes/recon.ts must be refactored before
+      gate 2 (tests_pass) can clear.
+  - read_only_storage: >
+      Dashboard makes no POST/PUT/DELETE calls to the storage vector.
+      All writes flow through pipeline.
