@@ -19,3 +19,9 @@ vectors/pipeline/tests/__pycache__/
 vectors/storage/tests/__pycache__/
 
 # Python cache/build artifacts
+
+# gemini-cli settings
+.gemini/
+
+# GitHub App credentials
+gha-creds-*.json
