@@ -17,4 +17,5 @@ def test_contract_yaml_parses():
 def test_vectors_registry_parses():
     with (REPO_ROOT / "control-plane" / "registry" / "vectors.yaml").open() as f:
         data = yaml.safe_load(f)
-    assert data is not None
+    assert isinstance(data, dict), "Registry YAML should parse into a dictionary"
+    assert "vectors" in data
