@@ -1,5 +1,6 @@
 #!/bin/bash
 # BugBountyOS Vector Import Utility (v2.0)
+set -euo pipefail
 
 EXECUTE=${EXECUTE:-0}
 
