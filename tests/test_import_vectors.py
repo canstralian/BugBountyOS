@@ -25,7 +25,7 @@ def test_script_defaults_execute_to_zero():
 
 
 def test_dry_run_guard_dereferences_execute_variable():
-    """Regression: previously `[ "EXECUTE" -eq 1 ]` (literal) made the EXECUTE=1 path unreachable."""
+    # Regression: previously `[ "EXECUTE" -eq 1 ]` (literal) made the EXECUTE=1 path unreachable.
     assert '[ "$EXECUTE" -eq 1 ]' in SCRIPT_PATH.read_text()
 
 

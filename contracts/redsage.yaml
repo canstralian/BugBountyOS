@@ -1,23 +1,41 @@
-dmVjdG9yX2lkOiByZWQtc2FnZQpyb2xlOiByZWZsZXgKZGVzY3JpcHRpb246
-IE9mZmVuc2l2ZSByZWFzb25pbmcgYW5kIHJlc3BvbnNlIHN5bnRoZXNpcy4K
-dmVyc2lvbjogMS4wLjAKCmdhdGVzOgogIC0gaWQ6IGNvbnRyYWN0X3NpZ25l
-ZAogICAgbmFtZTogQ29udHJhY3QgU2lnbmVkCiAgICBzdGF0dXM6IGNvbXBs
-ZXRlZAogICAgZGVzY3JpcHRpb246IEluaXRpYWwgcm9sZSBhc3NpZ25tZW50
-IGFuZCBpbnRlcmZhY2UgZGVmaW5pdGlvbnMgYXBwcm92ZWQuCgogIC0gaWQ6
-IHRlc3RzX3Bhc3MKICAgIG5hbWU6IFVuaXQgVGVzdHMKICAgIHN0YXR1czog
-cGVuZGluZwogICAgcmVxdWlyZW1lbnQ6IFZlY3Rvci1sZXZlbCByZWFzb25p
-bmcgdGVzdHMgbXVzdCBhY2hpZXZlID45MCUgZmlkZWxpdHkuCgogIC0gaWQ6
-IHNwZWNfa2l0X3Njb3JlCiAgICBuYW1lOiBTcGVjIEtpdCBDb21wbGlhbmNl
-CiAgICBzdGF0dXM6IHBlbmRpbmcKICAgIHRocmVzaG9sZDogMjcuNS8zNQog
-ICAgbWV0cmljOiBDb21wbGlhbmNlIEF1ZGl0IHYxLjAKCiAgLSBpZDogaW50
-ZWdyYXRpb25fcGFzcwogICAgbmFtZTogSW50ZWdyYXRpb24gdmVyaWZpZWQK
-ICAgIHN0YXR1czogcGVuZGluZwogICAgcmVxdWlyZW1lbnQ6IEVuZC10by1l
-bmQgcmVmbGV4IGxvb3AgdmVyaWZpZWQgd2l0aCBBaXJ0YWJsZSBTY29wZSBh
-ZGFwdGVyLgoKICAtIGlkOiBvd25lcl9hcHByb3ZhbAogICAgbmFtZTogRmlu
-YWwgU2lnbi1vZmYKICAgIHN0YXR1czogcGVuZGluZwogICAgYXBwcm92ZXI6
-IGNhbnN0cmFsaWFuCgppbnRlcmZhY2VzOgogIGlucHV0OgogICAgLSB0eXBl
-OiBldmVudAogICAgICBzb3VyY2U6IHBpcGVsaW5lCiAgICAgIGRlc2NyaXB0
-aW9uOiBSYXcgcmVjb25uYWlzc2FuY2UgZmluZGluZ3MuCiAgb3V0cHV0Ogog
-ICAgLSB0eXBlOiBhY3Rpb25fcGxhbgogICAgICB0YXJnZXQ6IGV4ZWN1dGlv
-bl9lbmdpbmUKICAgICAgZGVzY3JpcHRpb246IFN5bnRoZXNpemVkIGF0dGFj
-ayBwYXRoIHJlY29tbWVuZGF0aW9ucy4K
+vector_id: red-sage
+role: reflex
+description: Offensive reasoning and response synthesis.
+version: 1.0.0
+
+gates:
+  - id: contract_signed
+    name: Contract Signed
+    status: completed
+    description: Initial role assignment and interface definitions approved.
+
+  - id: tests_pass
+    name: Unit Tests
+    status: pending
+    requirement: Vector-level reasoning tests must achieve >90% fidelity.
+
+  - id: spec_kit_score
+    name: Spec Kit Compliance
+    status: pending
+    threshold: 27.5/35
+    metric: Compliance Audit v1.0
+
+  - id: integration_pass
+    name: Integration verified
+    status: pending
+    requirement: End-to-end reflex loop verified with Airtable Scope adapter.
+
+  - id: owner_approval
+    name: Final Sign-off
+    status: pending
+    approver: canstralian
+
+interfaces:
+  input:
+    - type: event
+      source: pipeline
+      description: Raw reconnaissance findings.
+  output:
+    - type: action_plan
+      target: execution_engine
+      description: Synthesized attack path recommendations.
