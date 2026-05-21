@@ -101,10 +101,10 @@ def test_git_subtree_is_guarded_by_execute_flag():
         enclosing_if = None
         depth = 0
         for j in range(idx - 1, -1, -1):
-            if re.match(r"^\\s*fi\\b", lines[j]):
+            if re.match(r"^\s*fi\b", lines[j]):
                 depth += 1
                 continue
-            if re.match(r"^\\s*if\\b", lines[j]):
+            if re.match(r"^\s*if\b", lines[j]):
                 if depth == 0:
                     enclosing_if = lines[j]
                     break
