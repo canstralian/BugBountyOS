@@ -45,10 +45,12 @@ def _contract_files() -> list[Path]:
 
 def _decode_contract(path: Path) -> dict:
     raw = path.read_bytes()
-    # Tolerate embedded newlines in base64 (the on-disk convention here).
+    # Normalize whitespace for strict base64 validation
+    clean_raw = raw.strip()
+    clean_raw = b"".join(clean_raw.split())
     try:
-        decoded = base64.b64decode(raw)
-    except Exception as exc:  # noqa: BLE001
+        decoded = base64.b64decode(clean_raw, validate=True)
+    except (ValueError, Exception) as exc:  # noqa: BLE001
         raise AssertionError(
             f"contract {path.name} is not valid base64: {exc}"
         ) from exc

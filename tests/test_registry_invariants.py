@@ -54,11 +54,11 @@ def _decode_registry() -> dict:
     # empty YAML load below, which the downstream assertions catch.
     try:
         decoded = base64.b64decode(raw)
-    except Exception as exc:  # noqa: BLE001 — surface decode errors verbatim
+        return yaml.safe_load(decoded)
+    except (yaml.YAMLError, Exception) as exc:  # noqa: BLE001 — surface decode errors verbatim
         raise AssertionError(
-            f"registry file is not valid base64: {exc}"
+            f"registry file is not valid base64 or YAML: {exc}"
         ) from exc
-    return yaml.safe_load(decoded)
 
 
 def test_registry_file_exists_and_nonempty():
