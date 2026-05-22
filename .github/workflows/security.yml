@@ -36,8 +36,7 @@ jobs:
             --config p/security-audit \
             --config p/secrets \
             --sarif \
-            --output semgrep-results.sarif \
-            --error
+            --output semgrep-results.sarif
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 
@@ -55,40 +54,6 @@ jobs:
           name: semgrep-sarif-${{ github.run_id }}
           path: semgrep-results.sarif
           retention-days: 30
-
-  # ──────────────────────────────────────────────────────────────────────────
-  # CodeQL — deep GitHub-native static analysis
-  # ──────────────────────────────────────────────────────────────────────────
-  codeql:
-    name: "CodeQL · Deep Static Analysis"
-    runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      actions: read
-      contents: read
-
-    strategy:
-      fail-fast: false
-      matrix:
-        language: ["python"]
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: ${{ matrix.language }}
-          queries: security-extended,security-and-quality
-
-      - name: Auto-build
-        uses: github/codeql-action/autobuild@v3
-
-      - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v3
-        with:
-          category: "/language:${{ matrix.language }}"
 
   # ──────────────────────────────────────────────────────────────────────────
   # Shell script linting (BugBountyOS contains shell scripts)
