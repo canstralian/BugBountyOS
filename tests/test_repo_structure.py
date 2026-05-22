@@ -21,5 +21,5 @@ def test_license_is_mit():
 
 
 def test_workflow_directories_exist():
-    for required in ("adapters", "contracts", "docs", "kernel", "vectors"):
+    for required in ("adapters", "contracts", "docs", "kernel", "src", "vectors"):
         assert (REPO_ROOT / required).is_dir(), f"{required}/ should exist"
