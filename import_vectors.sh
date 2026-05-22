@@ -7,6 +7,7 @@ VECTORS=(
   "dashboard:https://github.com/canstralian/BugBountyBot"
   "pipeline:https://github.com/canstralian/BugBountyPipeline"
   "storage:https://github.com/canstralian/BugBountyManager"
+  "adrian:https://github.com/secureagentics/Adrian"
 )
 
 echo "--- BugBountyOS Kernel: Vector Loading ---"
