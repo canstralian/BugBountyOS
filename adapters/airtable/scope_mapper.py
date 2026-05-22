@@ -1,9 +1,11 @@
-from typing import List, Dict
+import os
+from typing import Dict, List
+
 
 class AirtableScopeAdapter:
     def __init__(self):
         """Initialize the Airtable adapter with base config."""
-        self.base_id = "appT4zR1ybxgrujBD"
+        self.base_id = os.environ.get("AIRTABLE_BASE_ID", "")
         self.scope_rules_table = "Scope Rules"
 
     def get_active_scope(self) -> List[Dict]:
