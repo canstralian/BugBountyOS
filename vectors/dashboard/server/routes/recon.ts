@@ -54,14 +54,28 @@ const scanConfigs = {
 };
 
 async function performRecon(target: string, scanType: string): Promise<ScanResult> {
-  const url = new URL(target);
+  let url: URL;
+  try {
+    url = new URL(target);
+  } catch {
+    url = new URL(`https://${target}`);
+  }
   const domain = url.hostname;
   return { domain, timestamp: new Date().toISOString(), whois: null, dns: { a: [], mx: [], ns: [], txt: [] }, ports: [], technologies: [] };
 }
 
 router.post("/scan", async (req, res) => {
-  const { target, scanType } = req.body;
-  res.json(await performRecon(target, scanType));
+  const parsed = scanRequestSchema.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: parsed.error.flatten() });
+    return;
+  }
+  try {
+    const { target, scanType } = parsed.data;
+    res.json(await performRecon(target, scanType));
+  } catch (err) {
+    res.status(500).json({ error: err instanceof Error ? err.message : "scan failed" });
+  }
 });
 
 export const reconRouter = router;
