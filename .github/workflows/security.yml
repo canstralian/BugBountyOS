@@ -32,14 +32,12 @@ jobs:
 
       - name: Run Semgrep security scan
         run: |
-          semgrep ci \
+          semgrep scan \
             --config p/security-audit \
             --config p/secrets \
             --sarif \
             --output semgrep-results.sarif \
             --error
-        env:
-          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 
       - name: Upload SARIF to GitHub Security tab
         if: always()
@@ -57,38 +55,12 @@ jobs:
           retention-days: 30
 
   # ──────────────────────────────────────────────────────────────────────────
-  # CodeQL — deep GitHub-native static analysis
+  # CodeQL deep analysis is provided by the repository's default Code Scanning
+  # setup (the `Analyze (python)` / `Analyze (actions)` /
+  # `Analyze (javascript-typescript)` checks). Re-running CodeQL here would
+  # duplicate that analysis and collide on SARIF upload (same
+  # category: /language:python), so this workflow intentionally omits it.
   # ──────────────────────────────────────────────────────────────────────────
-  codeql:
-    name: "CodeQL · Deep Static Analysis"
-    runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      actions: read
-      contents: read
-
-    strategy:
-      fail-fast: false
-      matrix:
-        language: ["python"]
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: ${{ matrix.language }}
-          queries: security-extended,security-and-quality
-
-      - name: Auto-build
-        uses: github/codeql-action/autobuild@v3
-
-      - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v3
-        with:
-          category: "/language:${{ matrix.language }}"
 
   # ──────────────────────────────────────────────────────────────────────────
   # Shell script linting (BugBountyOS contains shell scripts)
