@@ -20,52 +20,75 @@ import math
 import re
 import unicodedata
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import List, Tuple
+from enum import StrEnum
 
 
-class ThreatLevel(str, Enum):
+class ThreatLevel(StrEnum):
     CLEAN = "clean"
     WARNING = "warning"
     HIGH = "high"
     CRITICAL = "critical"
 
 
-_INJECTION_PATTERNS: List[Tuple[re.Pattern, str]] = [
-    (re.compile(
-        r"ignore\s+(?:previous|all|above|prior|every|any|your|the)\s+(?:\w+\s+)*(?:instructions?|prompts?|rules?|directives?|constraints?|guidelines?)",
-        re.IGNORECASE,
-    ), "instruction_override"),
-    (re.compile(
-        r"disregard\s+(?:\w+\s+)*(?:instructions?|rules?|guidelines?|constraints?|safety|restrictions?)",
-        re.IGNORECASE,
-    ), "instruction_disregard"),
-    (re.compile(
-        r"forget\s+(?:\w+\s+)*(?:everything|instructions?|context|rules?|guidelines?|constraints?)",
-        re.IGNORECASE,
-    ), "context_wipe"),
-    (re.compile(
-        r"you\s+are\s+now\s+(in|entering|running)\s+(developer|debug|admin|god|root|DAN)\s*(mode)?",
-        re.IGNORECASE,
-    ), "mode_switch"),
+_INJECTION_PATTERNS: list[tuple[re.Pattern, str]] = [
+    (
+        re.compile(
+            r"ignore\s+(?:previous|all|above|prior|every|any|your|the)\s+(?:\w+\s+)*(?:instructions?|prompts?|rules?|directives?|constraints?|guidelines?)",
+            re.IGNORECASE,
+        ),
+        "instruction_override",
+    ),
+    (
+        re.compile(
+            r"disregard\s+(?:\w+\s+)*(?:instructions?|rules?|guidelines?|constraints?|safety|restrictions?)",
+            re.IGNORECASE,
+        ),
+        "instruction_disregard",
+    ),
+    (
+        re.compile(
+            r"forget\s+(?:\w+\s+)*(?:everything|instructions?|context|rules?|guidelines?|constraints?)",
+            re.IGNORECASE,
+        ),
+        "context_wipe",
+    ),
+    (
+        re.compile(
+            r"you\s+are\s+now\s+(in|entering|running)\s+(developer|debug|admin|god|root|DAN)\s*(mode)?",
+            re.IGNORECASE,
+        ),
+        "mode_switch",
+    ),
     (re.compile(r"new\s+instructions?\s*[:=]", re.IGNORECASE), "instruction_injection"),
-    (re.compile(
-        r"override\s+(system|safety|security)\s*(prompt|instructions?|rules?)?",
-        re.IGNORECASE,
-    ), "system_override"),
+    (
+        re.compile(
+            r"override\s+(system|safety|security)\s*(prompt|instructions?|rules?)?",
+            re.IGNORECASE,
+        ),
+        "system_override",
+    ),
     (re.compile(r"system\s*prompt\s*[:=]", re.IGNORECASE), "prompt_extraction"),
-    (re.compile(
-        r"repeat\s+(?:\w+\s+)*(?:instructions?|prompt|rules?|directives?)\b",
-        re.IGNORECASE,
-    ), "prompt_extraction"),
-    (re.compile(
-        r"convert\s+(your\s+)?(instructions?|prompt|input)\s+(to|into)\s+(json|xml|base64|hex)",
-        re.IGNORECASE,
-    ), "format_extraction"),
-    (re.compile(
-        r"what\s+(?:are|were|is)\s+your\s+(?:\w+\s+)*(?:instructions?|prompt|rules?|directives?)\b",
-        re.IGNORECASE,
-    ), "prompt_extraction"),
+    (
+        re.compile(
+            r"repeat\s+(?:\w+\s+)*(?:instructions?|prompt|rules?|directives?)\b",
+            re.IGNORECASE,
+        ),
+        "prompt_extraction",
+    ),
+    (
+        re.compile(
+            r"convert\s+(your\s+)?(instructions?|prompt|input)\s+(to|into)\s+(json|xml|base64|hex)",
+            re.IGNORECASE,
+        ),
+        "format_extraction",
+    ),
+    (
+        re.compile(
+            r"what\s+(?:are|were|is)\s+your\s+(?:\w+\s+)*(?:instructions?|prompt|rules?|directives?)\b",
+            re.IGNORECASE,
+        ),
+        "prompt_extraction",
+    ),
     (re.compile(r"base64\s*[:=]?\s*(decode|encode|eval)", re.IGNORECASE), "encoding_attack"),
     (re.compile(r"\\x[0-9a-f]{2}", re.IGNORECASE), "hex_escape"),
     (re.compile(r"eval\s*\(", re.IGNORECASE), "code_injection"),
@@ -73,14 +96,20 @@ _INJECTION_PATTERNS: List[Tuple[re.Pattern, str]] = [
     (re.compile(r"<\|system\|>", re.IGNORECASE), "role_impersonation"),
     (re.compile(r"<<\s*SYS\s*>>", re.IGNORECASE), "role_impersonation"),
     (re.compile(r"\[INST\]", re.IGNORECASE), "role_impersonation"),
-    (re.compile(
-        r"from\s+now\s+on\s*,?\s*(you|always|never)",
-        re.IGNORECASE,
-    ), "persistent_override"),
-    (re.compile(
-        r"for\s+the\s+rest\s+of\s+(this|our)\s+(conversation|session)",
-        re.IGNORECASE,
-    ), "persistent_override"),
+    (
+        re.compile(
+            r"from\s+now\s+on\s*,?\s*(you|always|never)",
+            re.IGNORECASE,
+        ),
+        "persistent_override",
+    ),
+    (
+        re.compile(
+            r"for\s+the\s+rest\s+of\s+(this|our)\s+(conversation|session)",
+            re.IGNORECASE,
+        ),
+        "persistent_override",
+    ),
 ]
 
 _INVISIBLE_CHAR_RE = re.compile(
@@ -109,7 +138,7 @@ def _shannon_entropy(text: str) -> float:
 class ScanResult:
     passed: bool
     sanitized: str
-    threats: List[str] = field(default_factory=list)
+    threats: list[str] = field(default_factory=list)
     threat_level: ThreatLevel = ThreatLevel.CLEAN
     reason: str = "Clean"
 
@@ -180,6 +209,22 @@ class InputScanner:
         self.strict_mode = strict_mode
 
     def scan(self, user_input: str) -> ScanResult:
+        """
+        Scan and sanitize user-provided text for prompt/instruction injection, invisible Unicode characters, and unusually high entropy.
+
+        Performs a length check, removes invisible and Unicode tag characters and normalizes the text, checks configured injection regexes, and (for medium-length inputs) evaluates Shannon entropy. If strict_mode is enabled, detection of injection patterns causes the scan to fail; high-entropy findings produce a warning; invisible-character counts and other non-injection detections are reported as warnings. The sanitized text is returned when the input is allowed; otherwise the sanitized field is an empty string.
+
+        Parameters:
+            user_input (str): The raw input text to scan.
+
+        Returns:
+            ScanResult: Result object containing:
+                - passed: whether the input is permitted.
+                - sanitized: cleaned/normalized text (empty on failure).
+                - threats: list of detected threat labels or measurements.
+                - threat_level: assigned ThreatLevel (CLEAN, WARNING, HIGH, CRITICAL).
+                - reason: human-readable summary of the outcome.
+        """
         threats: list[str] = []
 
         if len(user_input) > self.max_length:
@@ -210,7 +255,8 @@ class InputScanner:
                 threats.append(f"high_entropy:{entropy:.2f}")
 
         injection_threats = [
-            t for t in threats
+            t
+            for t in threats
             if not t.startswith("invisible_chars") and not t.startswith("high_entropy")
         ]
         entropy_threats = [t for t in threats if t.startswith("high_entropy")]

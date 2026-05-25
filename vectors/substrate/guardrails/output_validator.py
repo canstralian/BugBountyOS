@@ -18,24 +18,23 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
 
-
-_PII_PATTERNS: List[tuple[re.Pattern, str]] = [
+_PII_PATTERNS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"\b\d{3}(?:([-.]?)\d{2}\1\d{4})\b"), "ssn"),
     (re.compile(r"\b\d{4}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b"), "credit_card"),
     (re.compile(r"\b[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}\b"), "email"),
-    (re.compile(
-        r"\b(?:\+?\d{1,3}[\-.\s]?)?\(?\d{3}\)?[\-.\s]?\d{3}[\-.\s]?\d{4}\b"
-    ), "phone"),
-    (re.compile(
-        r"\b\d{1,5}\s+[\w\s]+(?:street|st|avenue|ave|road|rd|boulevard|blvd|"
-        r"drive|dr|lane|ln|way|court|ct)\b",
-        re.IGNORECASE,
-    ), "address"),
+    (re.compile(r"\b(?:\+?\d{1,3}[\-.\s]?)?\(?\d{3}\)?[\-.\s]?\d{3}[\-.\s]?\d{4}\b"), "phone"),
+    (
+        re.compile(
+            r"\b\d{1,5}\s+[\w\s]+(?:street|st|avenue|ave|road|rd|boulevard|blvd|"
+            r"drive|dr|lane|ln|way|court|ct)\b",
+            re.IGNORECASE,
+        ),
+        "address",
+    ),
 ]
 
-_LEAKAGE_PATTERNS: List[tuple[re.Pattern, str]] = [
+_LEAKAGE_PATTERNS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"##\s*ROLE\n", re.IGNORECASE), "role_leak"),
     (re.compile(r"##\s*OBJECTIVE\n", re.IGNORECASE), "objective_leak"),
     (re.compile(r"##\s*CONSTRAINTS\n", re.IGNORECASE), "constraints_leak"),
@@ -52,7 +51,7 @@ _LEAKAGE_PATTERNS: List[tuple[re.Pattern, str]] = [
 
 @dataclass
 class PiiScanResult:
-    detected_types: List[str] = field(default_factory=list)
+    detected_types: list[str] = field(default_factory=list)
     redacted: str = ""
 
     @property
@@ -64,19 +63,31 @@ class PiiScanResult:
 class ValidationResult:
     passed: bool
     output: str
-    verdicts: Dict[str, bool] = field(default_factory=dict)
-    reasons: Dict[str, str] = field(default_factory=dict)
-    pii_types: List[str] = field(default_factory=list)
+    verdicts: dict[str, bool] = field(default_factory=dict)
+    reasons: dict[str, str] = field(default_factory=dict)
+    pii_types: list[str] = field(default_factory=list)
 
     @property
-    def blocking_failures(self) -> List[str]:
+    def blocking_failures(self) -> list[str]:
         return [k for k, v in self.verdicts.items() if not v]
 
 
 def check_canary_token(output: str, canary: str) -> tuple[bool, str]:
-    """Return (passed, reason). Fails if the canary appears verbatim in output."""
+    """
+    Detects whether the provided canary token appears verbatim in the output.
+
+    Parameters:
+        output (str): The model-generated text to scan.
+        canary (str): The canary token to look for; if falsy, the check is skipped.
+
+    Returns:
+        tuple[bool, str]: `True` if the canary is not present, `False` if the canary is found; second element is a human-readable reason.
+    """
     if canary and canary in output:
-        return False, "Canary token detected in output — prompt extraction attack intercepted by BBOS guardrail"
+        return (
+            False,
+            "Canary token detected in output — prompt extraction attack intercepted by BBOS guardrail",
+        )
     return True, "Canary token not present"
 
 
@@ -91,7 +102,7 @@ def detect_pii(output: str, redact: bool = True) -> PiiScanResult:
     return PiiScanResult(detected_types=detected_types, redacted=redacted)
 
 
-def detect_prompt_leakage(output: str) -> tuple[bool, str, List[str]]:
+def detect_prompt_leakage(output: str) -> tuple[bool, str, list[str]]:
     """Return (passed, reason, list_of_leak_labels)."""
     leaks: list[str] = []
     for pattern, label in _LEAKAGE_PATTERNS:
@@ -122,7 +133,7 @@ class OutputValidator:
 
     def __init__(
         self,
-        canary_token: Optional[str] = None,
+        canary_token: str | None = None,
         redact_pii: bool = True,
         block_on_pii: bool = False,
     ) -> None:
