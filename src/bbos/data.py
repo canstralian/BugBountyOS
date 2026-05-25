@@ -27,7 +27,7 @@ def _decode_yaml_bytes(raw: bytes) -> dict[str, Any]:
         parsed = yaml.safe_load(candidate)
         if isinstance(parsed, dict):
             return parsed
-    except (ValueError, UnicodeDecodeError):
+    except (binascii.Error, UnicodeDecodeError, yaml.YAMLError):
         pass
     parsed = yaml.safe_load(raw.decode("utf-8")) or {}
     return parsed if isinstance(parsed, dict) else {}
