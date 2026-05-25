@@ -43,6 +43,12 @@ from vectors.substrate.processor import (
 
 @pytest.fixture
 def scanner():
+    """
+    Provide a fresh InputScanner instance for pre-inference scanning tests.
+    
+    Returns:
+        InputScanner: A new InputScanner configured for use in test cases.
+    """
     return InputScanner()
 
 
@@ -542,6 +548,18 @@ class TestSubstrateProcessorSandwich:
         captured: list[str] = []
 
         def _capture(prompt: str) -> str:
+            """
+            Append the provided prompt to the external `captured` list and return a fixed benign response.
+            
+            Parameters:
+            	prompt (str): The prompt text to record.
+            
+            Returns:
+            	str: The fixed benign response "Clean result.".
+            
+            Notes:
+            	This function has the side effect of appending `prompt` to a module-level `captured` list.
+            """
             captured.append(prompt)
             return "Clean result."
 

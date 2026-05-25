@@ -210,6 +210,22 @@ class InputScanner:
         self.strict_mode = strict_mode
 
     def scan(self, user_input: str) -> ScanResult:
+        """
+        Scan and sanitize user-provided text for prompt/instruction injection, invisible Unicode characters, and unusually high entropy.
+        
+        Performs a length check, removes invisible and Unicode tag characters and normalizes the text, checks configured injection regexes, and (for medium-length inputs) evaluates Shannon entropy. If strict_mode is enabled, detection of injection patterns causes the scan to fail; high-entropy findings produce a warning; invisible-character counts and other non-injection detections are reported as warnings. The sanitized text is returned when the input is allowed; otherwise the sanitized field is an empty string.
+        
+        Parameters:
+            user_input (str): The raw input text to scan.
+        
+        Returns:
+            ScanResult: Result object containing:
+                - passed: whether the input is permitted.
+                - sanitized: cleaned/normalized text (empty on failure).
+                - threats: list of detected threat labels or measurements.
+                - threat_level: assigned ThreatLevel (CLEAN, WARNING, HIGH, CRITICAL).
+                - reason: human-readable summary of the outcome.
+        """
         threats: list[str] = []
 
         if len(user_input) > self.max_length:

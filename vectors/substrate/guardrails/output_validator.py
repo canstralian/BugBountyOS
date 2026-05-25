@@ -75,7 +75,16 @@ class ValidationResult:
 
 
 def check_canary_token(output: str, canary: str) -> tuple[bool, str]:
-    """Return (passed, reason). Fails if the canary appears verbatim in output."""
+    """
+    Detects whether the provided canary token appears verbatim in the output.
+    
+    Parameters:
+        output (str): The model-generated text to scan.
+        canary (str): The canary token to look for; if falsy, the check is skipped.
+    
+    Returns:
+        tuple[bool, str]: `True` if the canary is not present, `False` if the canary is found; second element is a human-readable reason.
+    """
     if canary and canary in output:
         return (
             False,
