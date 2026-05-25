@@ -283,8 +283,6 @@ class TestLoadVectors:
         assert result[0].id == "b64vec"
 
     def test_vectors_are_frozen_dataclasses(self, tmp_path):
-        from bbos.data import Vector
-
         f = tmp_path / "vectors.yaml"
         f.write_text(
             "vectors:\n  - id: v1\n    role: r\n    state: s\n"
@@ -690,10 +688,10 @@ def test_load_contracts_multiple_inputs_and_outputs(tmp_path):
         "interfaces:\n"
         "  input:\n"
         "    - type: domain\n      description: domain input\n"
-        "    - type: ip\n        description: ip input\n"
+        "    - type: ip\n      description: ip input\n"
         "  output:\n"
         "    - type: report\n      description: final report\n"
-        "    - type: ioc\n        description: ioc list\n",
+        "    - type: ioc\n      description: ioc list\n",
         encoding="utf-8",
     )
     result = load_contracts(d)
