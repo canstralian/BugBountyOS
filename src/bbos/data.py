@@ -23,7 +23,7 @@ CONTRACTS_DIR = REPO_ROOT / "contracts"
 def _decode_yaml_bytes(raw: bytes) -> dict[str, Any]:
     # Most YAML on disk in this repo is base64-encoded with line wrapping;
     # strip whitespace before validating, then fall back to plain YAML.
-    stripped = bytes(b for b in raw if b not in b"\r\n\t ")
+    stripped = raw.translate(bytes.maketrans(b"", b""), b"\r\n\t ")
     try:
         candidate = base64.b64decode(stripped, validate=True).decode("utf-8")
         parsed = yaml.safe_load(candidate)
