@@ -77,11 +77,11 @@ def load_vectors(registry_path: Path = REGISTRY_PATH) -> list[Vector]:
     for raw in data.get("vectors", []) or []:
         out.append(
             Vector(
-                id=str(raw.get("id", "")),
-                role=str(raw.get("role", "")),
-                state=str(raw.get("state", "")),
-                trust_level=str(raw.get("trust_level", "")),
-                source_repo=str(raw.get("source_repo", "")),
+                id=str(raw.get("id") or ""),
+                role=str(raw.get("role") or ""),
+                state=str(raw.get("state") or ""),
+                trust_level=str(raw.get("trust_level") or ""),
+                source_repo=str(raw.get("source_repo") or ""),
                 contract_version=int(raw.get("contract_version", 0) or 0),
             )
         )
