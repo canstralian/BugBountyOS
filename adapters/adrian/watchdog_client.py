@@ -71,7 +71,12 @@ class WatchdogVerdict:
 
 
 class WatchdogUnavailable(RuntimeError):
-    """Raised when the Adrian engine cannot be reached and trust_level is strict."""
+    """Internal signal that the Adrian engine could not be reached.
+
+    Caught inside gate() and translated into a WatchdogVerdict per trust_level
+    (strict -> quarantine, permissive -> allow). It never propagates to the
+    kernel; the call site always receives a verdict.
+    """
 
 
 @dataclass
@@ -90,11 +95,13 @@ class WatchdogClient:
         Concrete SDK wiring lands once the vectors/adrian/ subtree is imported
         and the Adrian Python SDK is on the import path. Until then this stub
         honours the configured trust_level so the call site stays stable.
+
+        Any failure to obtain a verdict — including the engine being unreachable
+        — is translated into a verdict by trust_level; the kernel never has to
+        catch an exception here.
         """
         try:
             return self._call_adrian(trace)
-        except WatchdogUnavailable:
-            raise
         except Exception as exc:
             return self._on_failure(trace, exc)
 
