@@ -1,5 +1,6 @@
 from typing import List, Dict
 
+
 class AirtableScopeAdapter:
     def __init__(self):
         """Initialize the Airtable adapter with base config."""
@@ -15,6 +16,7 @@ class AirtableScopeAdapter:
     def is_authorized(self, asset_id: str) -> bool:
         """Verifies if a specific asset is marked as 'In Scope'."""
         return False
+
 
 if __name__ == "__main__":
     adapter = AirtableScopeAdapter()
