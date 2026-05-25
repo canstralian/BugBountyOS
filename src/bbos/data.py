@@ -120,7 +120,7 @@ def load_contracts(contracts_dir: Path = CONTRACTS_DIR) -> list[Contract]:
         )
         contracts.append(
             Contract(
-                vector_id=str(raw.get("vector_id", path.stem)),
+                vector_id=str(raw.get("vector_id") or path.stem),
                 role=str(raw.get("role", "")),
                 description=str(raw.get("description", "")),
                 version=str(raw.get("version", "")),
