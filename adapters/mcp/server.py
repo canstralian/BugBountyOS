@@ -7,10 +7,10 @@ mcp = FastMCP("BugBountyOS Kernel")
 def check_scope(asset_id: str) -> str:
     """
     Provide a static scope-check status message for a given asset.
-    
+
     Parameters:
         asset_id (str): Asset identifier (currently unused).
-    
+
     Returns:
         str: The current scope-check status message: "Importing Airtable Adapter... Currently Permissive mode."
     """
@@ -21,7 +21,7 @@ def check_scope(asset_id: str) -> str:
 def list_vectors() -> list:
     """
     List available entries in the Vector Registry.
-    
+
     Returns:
         list: The names of registered vectors, e.g. ["dashboard", "pipeline", "storage", "red-sage"].
     """

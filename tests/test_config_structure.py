@@ -8,13 +8,13 @@ Covers:
   - .github/workflows/lint.yml (changed: added ruff format + mypy steps)
 """
 
-import sys
 import os
+import sys
 import tomllib
 from pathlib import Path
 
-import yaml
 import pytest
+import yaml
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 

@@ -20,18 +20,17 @@ import math
 import re
 import unicodedata
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import List, Tuple
+from enum import StrEnum
 
 
-class ThreatLevel(str, Enum):
+class ThreatLevel(StrEnum):
     CLEAN = "clean"
     WARNING = "warning"
     HIGH = "high"
     CRITICAL = "critical"
 
 
-_INJECTION_PATTERNS: List[Tuple[re.Pattern, str]] = [
+_INJECTION_PATTERNS: list[tuple[re.Pattern, str]] = [
     (
         re.compile(
             r"ignore\s+(?:previous|all|above|prior|every|any|your|the)\s+(?:\w+\s+)*(?:instructions?|prompts?|rules?|directives?|constraints?|guidelines?)",
@@ -139,7 +138,7 @@ def _shannon_entropy(text: str) -> float:
 class ScanResult:
     passed: bool
     sanitized: str
-    threats: List[str] = field(default_factory=list)
+    threats: list[str] = field(default_factory=list)
     threat_level: ThreatLevel = ThreatLevel.CLEAN
     reason: str = "Clean"
 
@@ -212,12 +211,12 @@ class InputScanner:
     def scan(self, user_input: str) -> ScanResult:
         """
         Scan and sanitize user-provided text for prompt/instruction injection, invisible Unicode characters, and unusually high entropy.
-        
+
         Performs a length check, removes invisible and Unicode tag characters and normalizes the text, checks configured injection regexes, and (for medium-length inputs) evaluates Shannon entropy. If strict_mode is enabled, detection of injection patterns causes the scan to fail; high-entropy findings produce a warning; invisible-character counts and other non-injection detections are reported as warnings. The sanitized text is returned when the input is allowed; otherwise the sanitized field is an empty string.
-        
+
         Parameters:
             user_input (str): The raw input text to scan.
-        
+
         Returns:
             ScanResult: Result object containing:
                 - passed: whether the input is permitted.

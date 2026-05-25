@@ -10,8 +10,8 @@ Covers:
   - SubstrateProcessor full cycle
 """
 
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
@@ -20,9 +20,9 @@ import pytest
 from vectors.substrate.guardrails.input_scanner import (
     InputScanner,
     ThreatLevel,
+    _shannon_entropy,
     apply_sandwich_defense,
     apply_structured_separation,
-    _shannon_entropy,
 )
 from vectors.substrate.guardrails.output_validator import (
     OutputValidator,
@@ -35,7 +35,6 @@ from vectors.substrate.processor import (
     SubstrateProcessor,
 )
 
-
 # ---------------------------------------------------------------------------
 # Helpers / fixtures
 # ---------------------------------------------------------------------------
@@ -45,7 +44,7 @@ from vectors.substrate.processor import (
 def scanner():
     """
     Provide a fresh InputScanner instance for pre-inference scanning tests.
-    
+
     Returns:
         InputScanner: A new InputScanner configured for use in test cases.
     """
@@ -550,15 +549,15 @@ class TestSubstrateProcessorSandwich:
         def _capture(prompt: str) -> str:
             """
             Append the provided prompt to the external `captured` list and return a fixed benign response.
-            
+
             Parameters:
-            	prompt (str): The prompt text to record.
-            
+                prompt (str): The prompt text to record.
+
             Returns:
-            	str: The fixed benign response "Clean result.".
-            
+                str: The fixed benign response "Clean result.".
+
             Notes:
-            	This function has the side effect of appending `prompt` to a module-level `captured` list.
+                This function has the side effect of appending `prompt` to a module-level `captured` list.
             """
             captured.append(prompt)
             return "Clean result."

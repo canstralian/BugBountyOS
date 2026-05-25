@@ -8,8 +8,8 @@ Covers:
 """
 
 import asyncio
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
@@ -18,7 +18,6 @@ import pytest
 from adapters.airtable.scope_mapper import AirtableScopeAdapter
 from adapters.mcp.server import check_scope, list_vectors, mcp
 from vectors.pipeline.nlp_processor import NLPProcessor
-
 
 # ---------------------------------------------------------------------------
 # AirtableScopeAdapter
@@ -171,12 +170,18 @@ class TestMcpServerInstance:
     def test_check_scope_tool_description(self):
         tools = asyncio.run(mcp.list_tools())
         check_scope_tool = next(t for t in tools if t.name == "check_scope")
-        assert "authorized" in check_scope_tool.description.lower() or "scope" in check_scope_tool.description.lower()
+        assert (
+            "authorized" in check_scope_tool.description.lower()
+            or "scope" in check_scope_tool.description.lower()
+        )
 
     def test_list_vectors_tool_description(self):
         tools = asyncio.run(mcp.list_tools())
         list_vectors_tool = next(t for t in tools if t.name == "list_vectors")
-        assert "vector" in list_vectors_tool.description.lower() or "registry" in list_vectors_tool.description.lower()
+        assert (
+            "vector" in list_vectors_tool.description.lower()
+            or "registry" in list_vectors_tool.description.lower()
+        )
 
     def test_exactly_two_tools_registered(self):
         tools = asyncio.run(mcp.list_tools())

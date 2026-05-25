@@ -19,8 +19,9 @@ Three-layer defense model enforced on every cycle:
 from __future__ import annotations
 
 import logging
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, Optional
+from typing import Any
 
 from .guardrails import (
     InputScanner,
@@ -46,13 +47,13 @@ class ReconOutputViolation(Exception):
 class ProcessorConfig:
     """Runtime configuration for the substrate processor security gates."""
 
-    canary_token: Optional[str] = None
+    canary_token: str | None = None
     redact_pii: bool = True
     block_on_pii: bool = False
     max_input_length: int = 50_000
     entropy_threshold: float = 5.5
     strict_mode: bool = True
-    sandwich_reinforcement: Optional[str] = None
+    sandwich_reinforcement: str | None = None
 
 
 @dataclass
@@ -61,11 +62,11 @@ class ProcessingResult:
 
     success: bool
     output: str
-    scan_result: Optional[ScanResult] = None
-    validation_result: Optional[ValidationResult] = None
-    blocked_at: Optional[str] = None
+    scan_result: ScanResult | None = None
+    validation_result: ValidationResult | None = None
+    blocked_at: str | None = None
     reason: str = ""
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class SubstrateProcessor:
@@ -93,7 +94,7 @@ class SubstrateProcessor:
             operator_surface(result.output)
     """
 
-    def __init__(self, config: Optional[ProcessorConfig] = None) -> None:
+    def __init__(self, config: ProcessorConfig | None = None) -> None:
         self.config = config or ProcessorConfig()
         self._scanner = InputScanner(
             max_length=self.config.max_input_length,

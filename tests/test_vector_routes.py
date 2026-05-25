@@ -8,9 +8,9 @@ Covers:
   - vectors/storage/app.py      (Flask app + SQLAlchemy instantiation)
 """
 
-import sys
-import os
 import json
+import os
+import sys
 from pathlib import Path
 
 import pytest
@@ -45,6 +45,7 @@ class TestStorageBlueprints:
             sys.modules.pop(mod, None)
         import app as storage_app  # noqa: F401
         import routes as storage_routes
+
         self.routes = storage_routes
 
     def test_auth_blueprint_exists(self):
@@ -89,6 +90,7 @@ class TestPipelineApp:
         if "app" in sys.modules:
             del sys.modules["app"]
         import app as pipeline_app
+
         self.app_module = pipeline_app
 
     def test_app_attribute_exists(self):
@@ -172,10 +174,9 @@ class TestStorageApp:
             sys.path.insert(0, vectors_storage)
         if "app" in sys.modules:
             del sys.modules["app"]
-        flask_sqlalchemy = pytest.importorskip(
-            "flask_sqlalchemy", reason="flask_sqlalchemy not installed"
-        )
+        pytest.importorskip("flask_sqlalchemy", reason="flask_sqlalchemy not installed")
         import app as storage_app
+
         self.app_module = storage_app
 
     def test_app_attribute_exists(self):
