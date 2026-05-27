@@ -5,7 +5,9 @@ from typing import List, Dict
 class AirtableScopeAdapter:
     def __init__(self):
         """Initialize the Airtable adapter with base config."""
-        self.base_id = os.getenv("AIRTABLE_BASE_ID", "appT4zR1ybxgrujBD")
+        self.base_id = os.getenv("AIRTABLE_BASE_ID")
+        if not self.base_id:
+            raise ValueError("AIRTABLE_BASE_ID environment variable is required")
         self.scope_rules_table = os.getenv("AIRTABLE_SCOPE_TABLE", "Scope Rules")
 
     def get_active_scope(self) -> List[Dict]:
