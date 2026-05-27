@@ -23,7 +23,7 @@ for entry in "${VECTORS[@]}"; do
 
   echo "[KERNEL] Loading module: $NAME from $URL"
   if [ "$EXECUTE" -eq 1 ]; then
-    git subtree add --prefix="vectors/$NAME" "$URL" main --squash || {
+    git subtree add --prefix="vectors/$NAME" "$URL" "${BRANCH:-main}" --squash || {
       echo "[KERNEL] Failed to load '$NAME' from '$URL'" >&2
       exit 1
     }
