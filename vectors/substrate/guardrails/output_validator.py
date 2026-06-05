@@ -25,14 +25,15 @@ _PII_PATTERNS: List[tuple[re.Pattern, str]] = [
     (re.compile(r"\b\d{3}(?:([-.]?)\d{2}\1\d{4})\b"), "ssn"),
     (re.compile(r"\b\d{4}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b"), "credit_card"),
     (re.compile(r"\b[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}\b"), "email"),
-    (re.compile(
-        r"\b(?:\+?\d{1,3}[\-.\s]?)?\(?\d{3}\)?[\-.\s]?\d{3}[\-.\s]?\d{4}\b"
-    ), "phone"),
-    (re.compile(
-        r"\b\d{1,5}\s+[\w\s]+(?:street|st|avenue|ave|road|rd|boulevard|blvd|"
-        r"drive|dr|lane|ln|way|court|ct)\b",
-        re.IGNORECASE,
-    ), "address"),
+    (re.compile(r"\b(?:\+?\d{1,3}[\-.\s]?)?\(?\d{3}\)?[\-.\s]?\d{3}[\-.\s]?\d{4}\b"), "phone"),
+    (
+        re.compile(
+            r"\b\d{1,5}\s+[\w\s]+(?:street|st|avenue|ave|road|rd|boulevard|blvd|"
+            r"drive|dr|lane|ln|way|court|ct)\b",
+            re.IGNORECASE,
+        ),
+        "address",
+    ),
 ]
 
 _LEAKAGE_PATTERNS: List[tuple[re.Pattern, str]] = [
@@ -76,7 +77,10 @@ class ValidationResult:
 def check_canary_token(output: str, canary: str) -> tuple[bool, str]:
     """Return (passed, reason). Fails if the canary appears verbatim in output."""
     if canary and canary in output:
-        return False, "Canary token detected in output — prompt extraction attack intercepted by BBOS guardrail"
+        return (
+            False,
+            "Canary token detected in output — prompt extraction attack intercepted by BBOS guardrail",
+        )
     return True, "Canary token not present"
 
 
