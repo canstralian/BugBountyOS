@@ -3,6 +3,7 @@
 These are minimal placeholders so pytest collects at least one test and the
 `tests` workflow exits 0. Real test suites live in vector-specific subtrees.
 """
+
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
