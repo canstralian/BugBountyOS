@@ -45,6 +45,7 @@ class ReconOutputViolation(Exception):
 @dataclass
 class ProcessorConfig:
     """Runtime configuration for the substrate processor security gates."""
+
     canary_token: Optional[str] = None
     redact_pii: bool = True
     block_on_pii: bool = False
@@ -57,6 +58,7 @@ class ProcessorConfig:
 @dataclass
 class ProcessingResult:
     """Structured outcome returned to callers after a full processing cycle."""
+
     success: bool
     output: str
     scan_result: Optional[ScanResult] = None
@@ -208,7 +210,9 @@ class SubstrateProcessor:
                 scan_result=scan,
                 validation_result=validation,
                 blocked_at="post_inference_gate",
-                reason="; ".join(validation.reasons.get(k, "") for k in validation.blocking_failures),
+                reason="; ".join(
+                    validation.reasons.get(k, "") for k in validation.blocking_failures
+                ),
                 metadata={"blocking_failures": validation.blocking_failures},
             )
 
