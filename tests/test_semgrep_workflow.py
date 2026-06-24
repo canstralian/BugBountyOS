@@ -30,10 +30,10 @@ SARIF_FILENAME = "semgrep-results.sarif"
 @pytest.fixture(scope="module")
 def workflow_yaml():
     """
-    Load and parse the Semgrep workflow YAML.
+    Load and parse the Semgrep workflow YAML file.
     
     Returns:
-    	(dict): The parsed workflow YAML document.
+    	(dict): The parsed workflow document.
     """
     assert WORKFLOW_PATH.is_file(), (
         f"Workflow file not found: {WORKFLOW_PATH}. "
@@ -46,7 +46,7 @@ def workflow_yaml():
 @pytest.fixture(scope="module")
 def job(workflow_yaml):
     """
-    Return the top-level `semgrep` job definition.
+    Get the top-level `semgrep` job definition.
     
     Parameters:
     	workflow_yaml (dict): Parsed workflow YAML mapping.
@@ -63,13 +63,13 @@ def job(workflow_yaml):
 @pytest.fixture(scope="module")
 def steps(job):
     """
-    Get the steps defined for the Semgrep job.
+    Return the ordered step definitions for the Semgrep job.
     
     Parameters:
-    	job: The Semgrep job configuration.
+    	job: The Semgrep job configuration mapping.
     
     Returns:
-    	list: The job's step definitions.
+    	list: The non-empty list of step definitions.
     """
     assert "steps" in job, "Job must define 'steps'"
     assert isinstance(job["steps"], list), "'steps' must be a list"
@@ -448,7 +448,7 @@ class TestCrossStepConsistency:
 
 class TestSecurityConfiguration:
     def test_workflow_fails_on_findings_via_error_flag(self, steps):
-        """--error ensures CI is blocked when Semgrep detects security issues."""
+        """Requires the Semgrep scan step to fail the job when findings are detected."""
         run_cmd = steps[1]["run"]
         assert "--error" in run_cmd, (
             "'--error' flag is required to fail the build on Semgrep findings; "
@@ -483,7 +483,12 @@ class TestSecurityConfiguration:
         )
 
     def test_sarif_also_preserved_as_downloadable_artifact(self, steps):
-        """Artifact upload ensures SARIF is accessible even if Security tab access is restricted."""
+        """
+        Ensures the SARIF report is uploaded as a downloadable artifact.
+        
+        Parameters:
+        	steps: The workflow steps under test.
+        """
         uses = steps[3].get("uses", "")
         assert "upload-artifact" in uses, (
             "SARIF must also be saved as a downloadable artifact for offline inspection"

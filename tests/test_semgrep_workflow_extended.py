@@ -34,14 +34,27 @@ EXPECTED_IF_CONDITION = f"always() && hashFiles('{SARIF_FILENAME}') != ''"
 
 @pytest.fixture(scope="module")
 def workflow_raw():
-    """Return raw text content of the workflow file."""
+    """
+    Return the workflow file contents as raw UTF-8 text.
+    
+    Returns:
+        str: The workflow file content.
+    """
     assert WORKFLOW_PATH.is_file(), f"Workflow file not found: {WORKFLOW_PATH}"
     return WORKFLOW_PATH.read_text(encoding="utf-8")
 
 
 @pytest.fixture(scope="module")
 def workflow_yaml(workflow_raw):
-    """Parse workflow YAML once for all tests."""
+    """
+    Parse the workflow file into a YAML object.
+    
+    Parameters:
+    	workflow_raw: Raw workflow file contents.
+    
+    Returns:
+    	Parsed workflow YAML.
+    """
     return yaml.safe_load(workflow_raw)
 
 
@@ -53,7 +66,14 @@ def job(workflow_yaml):
 
 @pytest.fixture(scope="module")
 def steps(job):
-    """Return the list of steps."""
+    """Extract the workflow steps from the Semgrep job.
+    
+    Parameters:
+    	job: Parsed YAML for the `semgrep` job.
+    
+    Returns:
+    	list: The job's `steps` list.
+    """
     return job["steps"]
 
 
@@ -135,7 +155,7 @@ class TestExactIfConditionSyntax:
         )
 
     def test_artifact_upload_if_condition_exact_syntax(self, steps):
-        """Step 4 must use the exact if-condition that checks file existence."""
+        """Assert that the artifact upload step uses the expected file-existence condition."""
         step_if = str(steps[3].get("if", ""))
         assert "always()" in step_if, "Artifact upload step must include always()"
         assert "hashFiles" in step_if, "Artifact upload step must include hashFiles()"
@@ -280,7 +300,11 @@ class TestRetentionDaysType:
         )
 
     def test_retention_days_within_github_limit(self, steps):
-        """GitHub Actions maximum artifact retention is 90 days (for free/standard plans)."""
+        """Ensures the artifact retention period stays within GitHub Actions limits.
+        
+        Returns:
+        	None
+        """
         retention = steps[3].get("with", {}).get("retention-days", 0)
         assert retention <= 90, (
             f"'retention-days' must be <= 90 (GitHub Actions maximum), got: {retention}"
@@ -338,7 +362,11 @@ class TestSarifFlagsDistinct:
 
 class TestTopLevelYamlStructure:
     def test_top_level_has_exactly_one_key(self, workflow_yaml):
-        """The workflow file defines exactly one top-level job (semgrep)."""
+        """Ensures the workflow file contains exactly one top-level key.
+        
+        Parameters:
+        	workflow_yaml: Parsed workflow YAML mapping.
+        """
         keys = list(workflow_yaml.keys())
         assert len(keys) == 1, (
             f"Expected exactly 1 top-level key ('semgrep'), found: {keys}"
@@ -356,7 +384,9 @@ class TestTopLevelYamlStructure:
 
 class TestSarifUploadWithParams:
     def test_sarif_upload_with_has_only_expected_keys(self, steps):
-        """upload-sarif 'with' block should contain only 'sarif_file' and 'category'."""
+        """
+        Ensures the SARIF upload step only defines the expected `with` keys.
+        """
         with_params = steps[2].get("with", {})
         expected_keys = {"sarif_file", "category"}
         extra_keys = set(with_params.keys()) - expected_keys
