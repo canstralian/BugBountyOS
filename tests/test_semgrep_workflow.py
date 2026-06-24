@@ -29,7 +29,12 @@ SARIF_FILENAME = "semgrep-results.sarif"
 
 @pytest.fixture(scope="module")
 def workflow_yaml():
-    """Load and parse the semgrep-ci workflow YAML once for all tests."""
+    """
+    Load and parse the Semgrep workflow YAML.
+    
+    Returns:
+    	(dict): The parsed workflow YAML document.
+    """
     assert WORKFLOW_PATH.is_file(), (
         f"Workflow file not found: {WORKFLOW_PATH}. "
         "Ensure .github/workflows/semgrep-ci. yml exists."
@@ -40,7 +45,15 @@ def workflow_yaml():
 
 @pytest.fixture(scope="module")
 def job(workflow_yaml):
-    """Return the top-level 'semgrep' job definition."""
+    """
+    Return the top-level `semgrep` job definition.
+    
+    Parameters:
+    	workflow_yaml (dict): Parsed workflow YAML mapping.
+    
+    Returns:
+    	dict: The `semgrep` job configuration.
+    """
     assert "semgrep" in workflow_yaml, (
         "Top-level 'semgrep' key must be present in workflow YAML"
     )
@@ -49,7 +62,15 @@ def job(workflow_yaml):
 
 @pytest.fixture(scope="module")
 def steps(job):
-    """Return the list of steps from the semgrep job."""
+    """
+    Get the steps defined for the Semgrep job.
+    
+    Parameters:
+    	job: The Semgrep job configuration.
+    
+    Returns:
+    	list: The job's step definitions.
+    """
     assert "steps" in job, "Job must define 'steps'"
     assert isinstance(job["steps"], list), "'steps' must be a list"
     assert len(job["steps"]) > 0, "Job must have at least one step"
