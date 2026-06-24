@@ -1,0 +1,33 @@
+semgrep:
+  name: "Semgrep · Security Audit"
+  runs-on: ubuntu-latest
+  container:
+    image: semgrep/semgrep:latest
+
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Run Semgrep security scan
+      run: |
+        semgrep scan \
+          --config p/security-audit \
+          --config p/secrets \
+          --sarif \
+          --sarif-output=semgrep-results.sarif \
+          --error
+
+    - name: Upload SARIF to GitHub Security tab
+      if: always() && hashFiles('semgrep-results.sarif') != ''
+      uses: github/codeql-action/upload-sarif@v4
+      with:
+        sarif_file: semgrep-results.sarif
+        category: semgrep
+
+    - name: Upload SARIF as build artifact
+      if: always() && hashFiles('semgrep-results.sarif') != ''
+      uses: actions/upload-artifact@v4
+      with:
+        name: semgrep-sarif-${{ github.run_id }}
+        path: semgrep-results.sarif
+        retention-days: 30
