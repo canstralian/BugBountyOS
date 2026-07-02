@@ -21,16 +21,19 @@ sister repository per `CLAUDE.md`.
 | TypeScript / ESLint / Prettier | `vectors/dashboard/`   | Out of scope (stub) |
 | Tests             | `pytest -q`                         | Configured          |
 
-Python sources (16 files):
+Python sources (16 files — 13 modules + 3 `__init__.py`):
 
-```
+```text
 adapters/airtable/scope_mapper.py
 adapters/mcp/server.py
+tests/__init__.py
 tests/test_repo_structure.py
 tests/test_substrate_guardrails.py
 vectors/pipeline/{app,models,nlp_processor,routes}.py
 vectors/storage/{app,routes}.py
+vectors/substrate/__init__.py
 vectors/substrate/processor.py
+vectors/substrate/guardrails/__init__.py
 vectors/substrate/guardrails/{input_scanner,output_validator}.py
 ```
 
@@ -40,7 +43,7 @@ Shell sources: `import_vectors.sh` (1 file).
 
 Captured 2026-06-30 with `ruff 0.15.8`, Python 3.12.
 
-```
+```console
 $ ruff check .
 All checks passed!
 
@@ -94,20 +97,21 @@ upgrades become explicit, reviewable commits.
 
 ### F-3  Triplicated CI work — three workflows, overlapping jobs
 
-**Files**: `.github/workflows/lint.yml`, `ci.yml`, `tests.yml`.
+**Files**: `.github/workflows/lint.yml`, `.github/workflows/ci.yml`, `.github/workflows/tests.yml`.
 **Observed topology**:
-- `lint.yml` → `ruff check .` + `shellcheck`
-- `ci.yml` → `ruff check .` + `shellcheck` + `pytest`
-- `tests.yml` → `pytest`
+- `.github/workflows/lint.yml` → `ruff check .` + `shellcheck`
+- `.github/workflows/ci.yml` → `ruff check .` + `shellcheck` + `pytest`
+- `.github/workflows/tests.yml` → `pytest`
 
 Every push/PR to `main` and `develop` runs `ruff` twice, `shellcheck`
 twice, and `pytest` twice. Three required-status checks where one suffices.
 **Severity**: Medium (cost + clarity, not correctness).
 **Remediation**: **not applied here** — collapsing jobs may break branch
 protection rules that reference specific check names. Recommended path:
-keep `ci.yml` as the single source of truth and delete `lint.yml` and
-`tests.yml`, after first updating any branch protection or required-check
-configuration. Owner decision.
+keep `.github/workflows/ci.yml` as the single source of truth and delete
+`.github/workflows/lint.yml` and `.github/workflows/tests.yml`, after
+first updating any branch protection or required-check configuration.
+Owner decision.
 
 ### F-4  No formatter gate
 
@@ -156,12 +160,14 @@ disable`, `document-start: disable`) and run it in `lint.yml`.
 
 ### F-7  Shellcheck severity not pinned
 
-**File**: `.github/workflows/lint.yml`, `ci.yml`.
+**File**: `.github/workflows/lint.yml`, `.github/workflows/ci.yml`.
 **Impact**: Shellcheck's default severity is `style`. New shell scripts
 may produce style noise that warrants neither failure nor silence.
 **Severity**: Low (one script in tree).
 **Remediation**: **not applied here**. Recommended: `shellcheck
 --severity=warning` when the script count grows.
+
+
 
 ### F-8  `.editorconfig` missing
 
@@ -189,13 +195,15 @@ No new rule fires today; the zero-issue Ruff baseline is preserved.
 
 In priority order:
 
-1. **Decide F-3** — collapse `lint.yml` / `ci.yml` / `tests.yml` into one
+1. **Decide F-3** — collapse `.github/workflows/lint.yml` /
+   `.github/workflows/ci.yml` / `.github/workflows/tests.yml` into one
    workflow. Coordinate with branch protection rules first.
 2. **Adopt F-5 in phases** — `I` then `UP` are the cheapest, highest-value
    passes (auto-fixable, modernise stale typing).
 3. **F-6** — add `yamllint` for workflows + contracts.
 4. **F-4** — decide on `ruff format`. If yes, land the one-shot reformat
-   in a dedicated commit and add `ruff format --check .` to `lint.yml`.
+   in a dedicated commit and add `ruff format --check .` to
+   `.github/workflows/lint.yml`.
 5. **TypeScript surface** — when `vectors/dashboard` is imported via
    `import_vectors.sh`, audit its ESLint / Prettier / tsconfig in its own
    PR. The current `package.json` is a one-line stub.
